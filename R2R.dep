@@ -20,6 +20,8 @@
             <file>$PROJ_DIR$\main.c</file>
             <file>$TOOLKIT_DIR$\inc\intrinsics.h</file>
             <file>$TOOLKIT_DIR$\lib\dlib\dl430xlsfn.r43</file>
+            <file>$PROJ_DIR$\init.h</file>
+            <file>$PROJ_DIR$\init.c</file>
         </outputs>
         <file>
             <name>[ROOT_NODE]</name>
@@ -58,7 +60,7 @@
                 </tool>
                 <tool>
                     <name>ICC430</name>
-                    <file> 8 6</file>
+                    <file> 8</file>
                 </tool>
                 <tool>
                     <name>__cstat</name>

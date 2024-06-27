@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          19/Jun/2024  17:19:32
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          27/Jun/2024  13:46:18
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -15,7 +15,7 @@
 #    Source file   =  
 #        C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\main.c
 #    Command line  =  
-#        -f C:\Users\elokn\AppData\Local\Temp\EW8B18.tmp
+#        -f C:\Users\elokn\AppData\Local\Temp\EWF366.tmp
 #        (C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\main.c
 #        -lC
 #        C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\Debug\List
@@ -38,14 +38,14 @@
 C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\main.c
       1          #include "msp430F5529.h"
 
-   \                                 In  segment DATA16_AN, at 0x204
-   \   union <unnamed> _A_PADIR_L
-   \                     _A_PADIR_L:
+   \                                 In  segment DATA16_AN, at 0x202
+   \   union <unnamed> _A_PAOUT_L
+   \                     _A_PAOUT_L:
    \   000000                DS8 2
 
-   \                                 In  segment DATA16_AN, at 0x20a
-   \   union <unnamed> _A_PASEL_L
-   \                     _A_PASEL_L:
+   \                                 In  segment DATA16_AN, at 0x21c
+   \   union <unnamed> _A_PAIFG_L
+   \                     _A_PAIFG_L:
    \   000000                DS8 2
 
    \                                 In  segment DATA16_AN, at 0x222
@@ -53,175 +53,276 @@ C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\main.c
    \                     _A_PBOUT_L:
    \   000000                DS8 2
 
-   \                                 In  segment DATA16_AN, at 0x224
-   \   union <unnamed> _A_PBDIR_L
-   \                     _A_PBDIR_L:
+   \                                 In  segment DATA16_AN, at 0x242
+   \   union <unnamed> _A_PCOUT_L
+   \                     _A_PCOUT_L:
    \   000000                DS8 2
 
-   \                                 In  segment DATA16_AN, at 0x380
-   \   unsigned short volatile TA1CTL
-   \                     TA1CTL:
-   \   000000                DS8 2
+   \                                 In  segment DATA16_AN, at 0x60e
+   \   unsigned char volatile UCA1TXBUF
+   \                     UCA1TXBUF:
+   \   000000                DS8 1
 
-   \                                 In  segment DATA16_AN, at 0x384
-   \   unsigned short volatile TA1CCTL1
-   \                     TA1CCTL1:
+   \                                 In  segment DATA16_AN, at 0x61c
+   \   union <unnamed> _A_UCA1ICTL_L
+   \                     _A_UCA1ICTL_L:
    \   000000                DS8 2
-
-   \                                 In  segment DATA16_AN, at 0x392
-   \   unsigned short volatile TA1CCR0
-   \                     TA1CCR0:
-   \   000000                DS8 2
-
-   \                                 In  segment DATA16_AN, at 0x394
-   \   unsigned short volatile TA1CCR1
-   \                     TA1CCR1:
-   \   000000                DS8 2
-
-   \                                 In  segment DATA16_AN, at 0x15c
-   \   union <unnamed> _A_WDTCTL_L
-   \                     _A_WDTCTL_L:
-   \   000000                DS8 2
-      2          
-      3          // Dekleration
-
-   \                                 In  segment DATA16_I, align 2, align-sorted
-   \   000000                REQUIRE ?cstart_init_copy
-      4          unsigned int pwm_on = 16;        // PBulsbreitenverhältniss: pwm_on/256
-   \                     pwm_on:
-   \   000000                DS8 2
-   \   000002                REQUIRE `?<Initializer for pwm_on>`
+      2          #include "lib/init.h"
+      3          
+      4          #define pwm_aufloesung 8
+      5          #define filter_aufloesung 8
+      6          #define r2r_aufloesung 8
+      7          
+      8          // Globale Variablen Deklaration
 
    \                                 In  segment DATA16_Z, align 2, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
-      5          unsigned int Mittelwerte[256];
-   \                     Mittelwerte:
-   \   000000                DS8 512
-      6          
-      7          void initPWM(void);
-      8          
+      9          unsigned int conversioncounter = 0;     // Zeigt an wie viele Werte der ADC schon übertragen hat
+   \                     conversioncounter:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     10          unsigned int pwm_on = 0;                // Pulsbreitenverhältniss: pwm_on/2^pwm_aufloesung
+   \                     pwm_on:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_I, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_copy
+     11          unsigned int pwm_anzahl = (1 << pwm_aufloesung); // Auflösung PWM (einstellbar durch k)
+   \                     pwm_anzahl:
+   \   000000                DS8 2
+   \   000002                REQUIRE `?<Initializer for pwm_anzahl>`
+     12          
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     13          unsigned int r2r_ansteuerung = 0;       // legt fest welche Bits des R2R Netzwerkes gesetzt werden
+   \                     r2r_ansteuerung:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_I, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_copy
+     14          unsigned int r2r_anzahl = (1 << r2r_aufloesung);
+   \                     r2r_anzahl:
+   \   000000                DS8 2
+   \   000002                REQUIRE `?<Initializer for r2r_anzahl>`
+     15          
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     16          unsigned int mittelwert = 0;
+   \                     mittelwert:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_I, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_copy
+     17          unsigned int mittelwert_anzahl = (1 << filter_aufloesung);
+   \                     mittelwert_anzahl:
+   \   000000                DS8 2
+   \   000002                REQUIRE `?<Initializer for mittelwert_anzahl>`
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     18          long sum;                               // Summe zum berechnen des Mittelwerts ( muss double sein, da 8Bit * 16 Bit = 28 BIT Zahlen Adiert werden)
+   \                     sum:
+   \   000000                DS8 4
+     19          
+     20          int SPI_recieve(void);
+     21          void UART_send(int two_bytes);
+     22          
 
    \                                 In  segment CODE, align 2
-      9          void main(void)
+     23          void main(void)
    \                     main:
-     10          {
-     11            // Stop watchdog timer to prevent time out reset
-     12            WDTCTL = WDTPW + WDTHOLD;
-   \   000000   B240805A5C01 MOV.W   #0x5a80, &0x15c
-   \   000006   0343         NOP
-     13            __bis_SR_register(GIE);     // Global Interrupt Enable
-   \   000008   32D2         BIS.W   #0x8, SR
-     14            
-     15            // Initialisierungen
-     16            initPWM();
-   \   00000A   ........     CALLA   #initPWM
-     17            //initSPI();
-     18            //initUART();
-     19            //initADC();
-     20            
-     21            P4DIR = BIT7;
-   \   00000E   F24080002502 MOV.B   #0x80, &0x225
-     22            P4OUT = BIT7;
-   \   000014   F24080002302 MOV.B   #0x80, &0x223
-   \   00001A   033C         JMP     ??main_1
-     23          
-     24            
-     25            while(1)
-     26            { 
-     27              if(P4OUT & BIT7) 
-     28              {
-     29                P4OUT &= ~BIT7;
-   \                     ??main_0:
-   \   00001C   F2C080002302 BIC.B   #0x80, &0x223
-     30              } 
    \                     ??main_1:
-   \   000022   C2932302     CMP.B   #0x0, &0x223
-   \   000026   FA3B         JL      ??main_0
-     31              else 
-     32              {
-     33                P4OUT |= BIT7;
-   \   000028   F2D080002302 BIS.B   #0x80, &0x223
-   \   00002E   F93F         JMP     ??main_1
-   \   000030   0343         NOP
-   \   000032                REQUIRE _A_WDTCTL_L
-   \   000032                REQUIRE _A_PBDIR_L
-   \   000032                REQUIRE _A_PBOUT_L
-     34              }
-     35            }
-     36          
-     37          }
-     38          
+     24          {
+     25            // Initialisierungen
+     26            
+     27            
+     28            while(1)
+     29            {
+     30              P4OUT |= BIT7;                      // Grüne LED leuchtet wenn das Programm bereit zum Starten ist
+   \   000000   F2D080002302 BIS.B   #0x80, &0x223
+     31              P1OUT &= ~BIT0;                     // RoteLED aus
+   \   000006   D2C30202     BIC.B   #0x1, &0x202
+     32              while(0 == P1IFG);                  // Wenn S2 gedrückt wird, startet das Prtogramm
+   \                     ??main_0:
+   \   00000A   C2931C02     CMP.B   #0x0, &0x21c
+   \   00000E   FD27         JEQ     ??main_0
+     33              P1OUT |= BIT0;                      // Rote LED leuchtet wenn das Programm läuft
+   \   000010   D2D30202     BIS.B   #0x1, &0x202
+     34              P4OUT &= ~BIT7;                     // Grüne LED aus
+   \   000014   F2C080002302 BIC.B   #0x80, &0x223
+     35              
+     36              r2r_ansteuerung = 0;                // Zum Start alle "Bits" des R2R auf 0
+   \   00001A   8243....     MOV.W   #0x0, &r2r_ansteuerung
+   \   00001E   023C         JMP     ??main_5
+     37              while(r2r_ansteuerung < r2r_aufloesung)                                      // Schleife steuert jede Biteinstellung des R2R-Netzwerkes an
+     38              {
+     39                P6OUT = r2r_ansteuerung;
+     40                pwm_on = 0;
+     41                while(pwm_on < pwm_anzahl)                                                // Schleife steuert jedes Pulsbreitenverhältniss an
+     42                {
+     43                  sum = 0;
+     44                  conversioncounter = 0;
+     45                  while(conversioncounter < mittelwert_anzahl)                            // Schleife bildet Mittelwert
+     46                  {
+     47                    sum = sum + SPI_recieve();    // Messung durch ADC
+     48                    ++conversioncounter;
+     49                  }
+     50                  mittelwert = sum >> 8;          // Teilen der Summe durch 256
+     51                  UART_send(mittelwert);           // Über UART in csv
+     52                  ++pwm_on;                       // erhöht Pulsbreite und fungiert als counter
+     53                }
+     54                ++r2r_ansteuerung;
+   \                     ??main_3:
+   \   000020   9253....     ADD.W   #0x1, &r2r_ansteuerung
+   \                     ??main_5:
+   \   000024   B292....     CMP.W   #0x8, &r2r_ansteuerung
+   \   000028   EB2F         JC      ??main_1
+   \   00002A   D242....4302 MOV.B   &r2r_ansteuerung, &0x243
+   \   000030   8243....     MOV.W   #0x0, &pwm_on
+   \   000034   213C         JMP     ??main_6
+   \                     ??main_2:
+   \   000036   ........     CALLA   #SPI_recieve
+   \   00003A   0D4C         MOV.W   R12, R13
+   \   00003C   0D5D         RLA.W   R13
+   \   00003E   0D7D         SUBC.W  R13, R13
+   \   000040   3DE3         XOR.W   #0xffff, R13
+   \   000042   825C....     ADD.W   R12, &sum
+   \   000046   826D....     ADDC.W  R13, &sum + 2
+   \   00004A   9253....     ADD.W   #0x1, &conversioncounter
+   \                     ??main_4:
+   \   00004E   9292........ CMP.W   &mittelwert_anzahl, &conversioncounter
+   \   000054   F02B         JNC     ??main_2
+   \   000056   1E42....     MOV.W   &sum, R14
+   \   00005A   1F42....     MOV.W   &sum + 2, R15
+   \   00005E   8E10         SWPB    R14
+   \   000060   8F10         SWPB    R15
+   \   000062   4EEF         XOR.B   R15, R14
+   \   000064   0EEF         XOR.W   R15, R14
+   \   000066   8F11         SXT     R15
+   \   000068   824E....     MOV.W   R14, &mittelwert
+   \   00006C   1C42....     MOV.W   &mittelwert, R12
+   \   000070   ........     CALLA   #UART_send
+   \   000074   9253....     ADD.W   #0x1, &pwm_on
+   \                     ??main_6:
+   \   000078   9292........ CMP.W   &pwm_anzahl, &pwm_on
+   \   00007E   D02F         JC      ??main_3
+   \   000080   8243....     MOV.W   #0x0, &sum
+   \   000084   8243....     MOV.W   #0x0, &sum + 2
+   \   000088   8243....     MOV.W   #0x0, &conversioncounter
+   \   00008C   E03F         JMP     ??main_4
+   \   00008E   0343         NOP
+   \   000090                REQUIRE _A_PBOUT_L
+   \   000090                REQUIRE _A_PAOUT_L
+   \   000090                REQUIRE _A_PAIFG_L
+   \   000090                REQUIRE _A_PCOUT_L
+     55              } 
+     56            }
+     57          }
+     58          
+     59          
 
    \                                 In  segment CODE, align 2
-     39          void initPWM(void)
-   \                     initPWM:
-     40          {
-     41            // P2.0 ist Output der PWM
-     42            P2DIR |= BIT0;        // P2.0 ist Ausgang
-   \   000000   D2D30502     BIS.B   #0x1, &0x205
-     43            P2SEL |= BIT0;        // P2.0 ist kein GPIO	
-   \   000004   D2D30B02     BIS.B   #0x1, &0x20b
-     44            
-     45            // Timer A0 realisiert PWM
-     46            TA1CCR0 = 256;                                        // 8-Bit Auflusung für PWM   f_PWM=1,048MHz/8/128=1,04kHz
-   \   000008   B24000019203 MOV.W   #0x100, &0x392
-     47            TA1CCTL1 = OUTMOD_7;                                  // CCR1 im Reset/Set Modus
-   \   00000E   B240E0008403 MOV.W   #0xe0, &0x384
-     48            TA1CCR1 = pwm_on;                                     // PWM_on bestimmt Pulsbreite 
-   \   000014   9242....9403 MOV.W   &pwm_on, &0x394
-     49            TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_2 + ID_1;       // SMCLK, up mode, loesche TAR f_clk/8	  
-   \   00001A   B240D4028003 MOV.W   #0x2d4, &0x380
-     50          }
-   \   000020   1001         RETA
-   \   000022                REQUIRE _A_PADIR_L
-   \   000022                REQUIRE _A_PASEL_L
-   \   000022                REQUIRE TA1CCR0
-   \   000022                REQUIRE TA1CCTL1
-   \   000022                REQUIRE TA1CCR1
-   \   000022                REQUIRE TA1CTL
+     60          int SPI_recieve(void)
+   \                     SPI_recieve:
+     61          {
+     62            return 0;
+   \   000000   0C43         MOV.W   #0x0, R12
+   \   000002   1001         RETA
+     63          }
+     64          
+
+   \                                 In  segment CODE, align 2
+     65          void UART_send(int two_bytes)
+   \                     UART_send:
+     66          {
+     67            char lsb_byte = two_bytes & 0x0F;
+   \   000000   0E12         PUSH.W  R14
+   \   000002   C14C0000     MOV.B   R12, 0(SP)
+   \   000006   3E41         POP.W   R14
+   \   000008   7EF00F00     AND.B   #0xf, R14
+     68            char msb_byte = two_bytes >> 8;
+   \   00000C   8C10         SWPB    R12
+   \   00000E   8C11         SXT     R12
+     69              
+     70            UCA1TXBUF = lsb_byte;
+   \   000010   C24E0E06     MOV.B   R14, &0x60e
+     71            while((UCTXIFG & UCA1IFG) == 0);
+   \                     ??UART_send_0:
+   \   000014   E2B31D06     BIT.B   #0x2, &0x61d
+   \   000018   FD2B         JNC     ??UART_send_0
+     72            UCA1TXBUF = msb_byte;
+   \   00001A   C24C0E06     MOV.B   R12, &0x60e
+     73            while((UCTXIFG & UCA1IFG) == 0);
+   \                     ??UART_send_1:
+   \   00001E   E2B31D06     BIT.B   #0x2, &0x61d
+   \   000022   FD2B         JNC     ??UART_send_1
+     74          }
+   \   000024   1001         RETA
+   \   000026                REQUIRE UCA1TXBUF
+   \   000026                REQUIRE _A_UCA1ICTL_L
 
    \                                 In  segment DATA16_ID, align 2, align-sorted
-   \                     `?<Initializer for pwm_on>`:
-   \   000000   1000         DC16 16
+   \                     `?<Initializer for pwm_anzahl>`:
+   \   000000   0001         DC16 256
+
+   \                                 In  segment DATA16_ID, align 2, align-sorted
+   \                     `?<Initializer for r2r_anzahl>`:
+   \   000000   0001         DC16 256
+
+   \                                 In  segment DATA16_ID, align 2, align-sorted
+   \                     `?<Initializer for mittelwert_anzahl>`:
+   \   000000   0001         DC16 256
 
    Maximum stack usage in bytes:
 
    CSTACK Function
    ------ --------
-      4   initPWM
+      4   SPI_recieve
+      6   UART_send
       4   main
-        4   -> initPWM
+        4   -> SPI_recieve
+        4   -> UART_send
 
 
    Segment part sizes:
 
    Bytes  Function/Label
    -----  --------------
-       2  ?<Initializer for pwm_on>
-     512  Mittelwerte
-       2  TA1CCR0
-       2  TA1CCR1
-       2  TA1CCTL1
-       2  TA1CTL
-       2  _A_PADIR_L
-       2  _A_PASEL_L
-       2  _A_PBDIR_L
+       2  ?<Initializer for mittelwert_anzahl>
+       2  ?<Initializer for pwm_anzahl>
+       2  ?<Initializer for r2r_anzahl>
+       4  SPI_recieve
+      38  UART_send
+       1  UCA1TXBUF
+       2  _A_PAIFG_L
+       2  _A_PAOUT_L
        2  _A_PBOUT_L
-       2  _A_WDTCTL_L
-      34  initPWM
-      50  main
+       2  _A_PCOUT_L
+       2  _A_UCA1ICTL_L
+       2  conversioncounter
+     144  main
+       2  mittelwert
+       2  mittelwert_anzahl
+       2  pwm_anzahl
        2  pwm_on
+       2  r2r_ansteuerung
+       2  r2r_anzahl
+       4  sum
 
  
-  84 bytes in segment CODE
-  18 bytes in segment DATA16_AN
-   2 bytes in segment DATA16_I
-   2 bytes in segment DATA16_ID
- 512 bytes in segment DATA16_Z
+ 186 bytes in segment CODE
+  11 bytes in segment DATA16_AN
+   6 bytes in segment DATA16_I
+   6 bytes in segment DATA16_ID
+  12 bytes in segment DATA16_Z
  
-  84 bytes of CODE  memory
-   2 bytes of CONST memory
- 514 bytes of DATA  memory (+ 18 bytes shared)
+ 186 bytes of CODE  memory
+   6 bytes of CONST memory
+  18 bytes of DATA  memory (+ 11 bytes shared)
 
 Errors: none
 Warnings: none
