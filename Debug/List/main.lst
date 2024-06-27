@@ -1,0 +1,227 @@
+###############################################################################
+#
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          19/Jun/2024  17:19:32
+# Copyright 1996-2021 IAR Systems AB.
+# PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
+#
+#    __rt_version  =  3
+#    __double_size =  32
+#    __reg_r4      =  free
+#    __reg_r5      =  free
+#    __pic         =  no
+#    __core        =  430X
+#    __data_model  =  small
+#    __code_model  =  large
+#    Source file   =  
+#        C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\main.c
+#    Command line  =  
+#        -f C:\Users\elokn\AppData\Local\Temp\EW8B18.tmp
+#        (C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\main.c
+#        -lC
+#        C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\Debug\List
+#        -o
+#        C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\Debug\Obj
+#        --no_cse --no_unroll --no_inline --no_code_motion --no_tbaa --debug
+#        -D__MSP430F5529__ -e --double=32 --dlib_config "C:\Program Files
+#        (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h"
+#        --core=430X --data_model=small -Ol --multiplier=32
+#        --hw_workaround=CPU40 --hw_workaround=nop_after_lpm
+#        --code_model=large)
+#    Locale        =  German_DEU.1252
+#    List file     =  
+#        C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\Debug\List\main.lst
+#    Object file   =  
+#        C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\Debug\Obj\main.r43
+#
+###############################################################################
+
+C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\main.c
+      1          #include "msp430F5529.h"
+
+   \                                 In  segment DATA16_AN, at 0x204
+   \   union <unnamed> _A_PADIR_L
+   \                     _A_PADIR_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x20a
+   \   union <unnamed> _A_PASEL_L
+   \                     _A_PASEL_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x222
+   \   union <unnamed> _A_PBOUT_L
+   \                     _A_PBOUT_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x224
+   \   union <unnamed> _A_PBDIR_L
+   \                     _A_PBDIR_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x380
+   \   unsigned short volatile TA1CTL
+   \                     TA1CTL:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x384
+   \   unsigned short volatile TA1CCTL1
+   \                     TA1CCTL1:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x392
+   \   unsigned short volatile TA1CCR0
+   \                     TA1CCR0:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x394
+   \   unsigned short volatile TA1CCR1
+   \                     TA1CCR1:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x15c
+   \   union <unnamed> _A_WDTCTL_L
+   \                     _A_WDTCTL_L:
+   \   000000                DS8 2
+      2          
+      3          // Dekleration
+
+   \                                 In  segment DATA16_I, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_copy
+      4          unsigned int pwm_on = 16;        // PBulsbreitenverhältniss: pwm_on/256
+   \                     pwm_on:
+   \   000000                DS8 2
+   \   000002                REQUIRE `?<Initializer for pwm_on>`
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+      5          unsigned int Mittelwerte[256];
+   \                     Mittelwerte:
+   \   000000                DS8 512
+      6          
+      7          void initPWM(void);
+      8          
+
+   \                                 In  segment CODE, align 2
+      9          void main(void)
+   \                     main:
+     10          {
+     11            // Stop watchdog timer to prevent time out reset
+     12            WDTCTL = WDTPW + WDTHOLD;
+   \   000000   B240805A5C01 MOV.W   #0x5a80, &0x15c
+   \   000006   0343         NOP
+     13            __bis_SR_register(GIE);     // Global Interrupt Enable
+   \   000008   32D2         BIS.W   #0x8, SR
+     14            
+     15            // Initialisierungen
+     16            initPWM();
+   \   00000A   ........     CALLA   #initPWM
+     17            //initSPI();
+     18            //initUART();
+     19            //initADC();
+     20            
+     21            P4DIR = BIT7;
+   \   00000E   F24080002502 MOV.B   #0x80, &0x225
+     22            P4OUT = BIT7;
+   \   000014   F24080002302 MOV.B   #0x80, &0x223
+   \   00001A   033C         JMP     ??main_1
+     23          
+     24            
+     25            while(1)
+     26            { 
+     27              if(P4OUT & BIT7) 
+     28              {
+     29                P4OUT &= ~BIT7;
+   \                     ??main_0:
+   \   00001C   F2C080002302 BIC.B   #0x80, &0x223
+     30              } 
+   \                     ??main_1:
+   \   000022   C2932302     CMP.B   #0x0, &0x223
+   \   000026   FA3B         JL      ??main_0
+     31              else 
+     32              {
+     33                P4OUT |= BIT7;
+   \   000028   F2D080002302 BIS.B   #0x80, &0x223
+   \   00002E   F93F         JMP     ??main_1
+   \   000030   0343         NOP
+   \   000032                REQUIRE _A_WDTCTL_L
+   \   000032                REQUIRE _A_PBDIR_L
+   \   000032                REQUIRE _A_PBOUT_L
+     34              }
+     35            }
+     36          
+     37          }
+     38          
+
+   \                                 In  segment CODE, align 2
+     39          void initPWM(void)
+   \                     initPWM:
+     40          {
+     41            // P2.0 ist Output der PWM
+     42            P2DIR |= BIT0;        // P2.0 ist Ausgang
+   \   000000   D2D30502     BIS.B   #0x1, &0x205
+     43            P2SEL |= BIT0;        // P2.0 ist kein GPIO	
+   \   000004   D2D30B02     BIS.B   #0x1, &0x20b
+     44            
+     45            // Timer A0 realisiert PWM
+     46            TA1CCR0 = 256;                                        // 8-Bit Auflusung für PWM   f_PWM=1,048MHz/8/128=1,04kHz
+   \   000008   B24000019203 MOV.W   #0x100, &0x392
+     47            TA1CCTL1 = OUTMOD_7;                                  // CCR1 im Reset/Set Modus
+   \   00000E   B240E0008403 MOV.W   #0xe0, &0x384
+     48            TA1CCR1 = pwm_on;                                     // PWM_on bestimmt Pulsbreite 
+   \   000014   9242....9403 MOV.W   &pwm_on, &0x394
+     49            TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_2 + ID_1;       // SMCLK, up mode, loesche TAR f_clk/8	  
+   \   00001A   B240D4028003 MOV.W   #0x2d4, &0x380
+     50          }
+   \   000020   1001         RETA
+   \   000022                REQUIRE _A_PADIR_L
+   \   000022                REQUIRE _A_PASEL_L
+   \   000022                REQUIRE TA1CCR0
+   \   000022                REQUIRE TA1CCTL1
+   \   000022                REQUIRE TA1CCR1
+   \   000022                REQUIRE TA1CTL
+
+   \                                 In  segment DATA16_ID, align 2, align-sorted
+   \                     `?<Initializer for pwm_on>`:
+   \   000000   1000         DC16 16
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+      4   initPWM
+      4   main
+        4   -> initPWM
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       2  ?<Initializer for pwm_on>
+     512  Mittelwerte
+       2  TA1CCR0
+       2  TA1CCR1
+       2  TA1CCTL1
+       2  TA1CTL
+       2  _A_PADIR_L
+       2  _A_PASEL_L
+       2  _A_PBDIR_L
+       2  _A_PBOUT_L
+       2  _A_WDTCTL_L
+      34  initPWM
+      50  main
+       2  pwm_on
+
+ 
+  84 bytes in segment CODE
+  18 bytes in segment DATA16_AN
+   2 bytes in segment DATA16_I
+   2 bytes in segment DATA16_ID
+ 512 bytes in segment DATA16_Z
+ 
+  84 bytes of CODE  memory
+   2 bytes of CONST memory
+ 514 bytes of DATA  memory (+ 18 bytes shared)
+
+Errors: none
+Warnings: none
