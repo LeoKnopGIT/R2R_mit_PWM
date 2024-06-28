@@ -20,8 +20,9 @@ rule browsedata
 
 
 #Build steps
+build init.pbi : index init.xcl
 build main.pbi : index main.xcl
-build R2R.pbd : link main.pbi
+build R2R.pbd : link init.pbi main.pbi
 build R2R.pbw : browsedata R2R.pbd
 
 

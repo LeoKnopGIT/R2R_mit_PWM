@@ -40,14 +40,15 @@ void main(void)
       pwm_on = 0;
       while(pwm_on < pwm_anzahl)                                                // Schleife steuert jedes Pulsbreitenverhältniss an
       {
+        mittelwert = 0;
         sum = 0;
         conversioncounter = 0;
         while(conversioncounter < mittelwert_anzahl)                            // Schleife bildet Mittelwert
         {
+          // Wait for SPI Interrupts
           sum = sum + SPI_recieve();    // Messung durch ADC
-          ++conversioncounter;
         }
-        mittelwert = sum >> 8;          // Teilen der Summe durch 256
+        mittelwert = sum >> filter_aufloesung;          // Teilen der Summe durch 256
         UART_send(mittelwert);           // Über UART in csv
         ++pwm_on;                       // erhöht Pulsbreite und fungiert als counter
       }
@@ -66,9 +67,10 @@ void UART_send(int two_bytes)
 {
   char lsb_byte = two_bytes & 0x0F;
   char msb_byte = two_bytes >> 8;
-    
-  UCA1TXBUF = lsb_byte;
-  while((UCTXIFG & UCA1IFG) == 0);
+  
   UCA1TXBUF = msb_byte;
   while((UCTXIFG & UCA1IFG) == 0);
+  UCA1TXBUF = lsb_byte;
+  while((UCTXIFG & UCA1IFG) == 0);
+  
 }
