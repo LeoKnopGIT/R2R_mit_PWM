@@ -2,7 +2,7 @@
 #                                                                              #
 #      IAR Universal Linker V6.6.2.104                                         #
 #                                                                              #
-#           Link time     =  27/Jun/2024  13:51:34                             #
+#           Link time     =  31/Jul/2024  16:51:46                             #
 #           Target CPU    =  MSP430                                            #
 #           List file     =  C:\Users\elokn\Documents\Studium\6.Sem\Untersuchu #
 #                            ng_R2R_Mittelwert_PWM\Debug\List\R2R.map          #
@@ -11,9 +11,11 @@
 #                            Format: ubrof10                                   #
 #                            UBROF version 10.0.6                              #
 #                            Using library modules for C-SPY (-rt)             #
-#           Command line  =  -f C:\Users\elokn\AppData\Local\Temp\EWC7A7.tmp   #
+#           Command line  =  -f C:\Users\elokn\AppData\Local\Temp\EWA3AA.tmp   #
 #                            (C:\Users\elokn\Documents\Studium\6.Sem\Untersuch #
-#                            ung_R2R_Mittelwert_PWM\Debug\Obj\main.r43         #
+#                            ung_R2R_Mittelwert_PWM\Debug\Obj\init.r43         #
+#                            C:\Users\elokn\Documents\Studium\6.Sem\Untersuchu #
+#                            ng_R2R_Mittelwert_PWM\Debug\Obj\main.r43          #
 #                            -o                                                #
 #                            C:\Users\elokn\Documents\Studium\6.Sem\Untersuchu #
 #                            ng_R2R_Mittelwert_PWM\Debug\Exe\R2R.d43           #
@@ -135,14 +137,15 @@ Absolute parts
            ?CPU30_OFFSET           0002 
     *************************************************************************
 
-  FILE NAME : C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\Debug\Obj\main.r43
-  PROGRAM MODULE, NAME : main
+  FILE NAME : C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\Debug\Obj\init.r43
+  PROGRAM MODULE, NAME : init
 
   SEGMENTS IN THE MODULE
   ======================
 DATA16_AN
   Relative segment, address: 0202 - 0203 (0x2 bytes), align: 0
-  Segment part 1. ROOT        Intra module refs:   main
+  Segment part 1. ROOT        Intra module refs:   initMC
+                                                   main (main)
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
            _A_PAOUT_L              0202 
@@ -153,8 +156,72 @@ DATA16_AN
            PAOUT_L                 0202 
     -------------------------------------------------------------------------
 DATA16_AN
+  Relative segment, address: 0204 - 0205 (0x2 bytes), align: 0
+  Segment part 2. ROOT        Intra module refs:   initMC
+                                                   initPWM
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           _A_PADIR_L              0204 
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           PADIR                   0204 
+           PADIR_H                 0205 
+           PADIR_L                 0204 
+    -------------------------------------------------------------------------
+DATA16_AN
+  Relative segment, address: 0206 - 0207 (0x2 bytes), align: 0
+  Segment part 3. ROOT        Intra module refs:   initMC
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           _A_PAREN_L              0206 
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           PAREN                   0206 
+           PAREN_H                 0207 
+           PAREN_L                 0206 
+    -------------------------------------------------------------------------
+DATA16_AN
+  Relative segment, address: 020A - 020B (0x2 bytes), align: 0
+  Segment part 4. ROOT        Intra module refs:   initMC
+                                                   initPWM
+                                                   initSPI
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           _A_PASEL_L              020A 
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           PASEL                   020A 
+           PASEL_H                 020B 
+           PASEL_L                 020A 
+    -------------------------------------------------------------------------
+DATA16_AN
+  Relative segment, address: 0218 - 0219 (0x2 bytes), align: 0
+  Segment part 5. ROOT        Intra module refs:   initMC
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           _A_PAIES_L              0218 
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           PAIES                   0218 
+           PAIES_H                 0219 
+           PAIES_L                 0218 
+    -------------------------------------------------------------------------
+DATA16_AN
+  Relative segment, address: 021A - 021B (0x2 bytes), align: 0
+  Segment part 6. ROOT        Intra module refs:   initMC
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           _A_PAIE_L               021A 
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           PAIE                    021A 
+           PAIE_H                  021B 
+           PAIE_L                  021A 
+    -------------------------------------------------------------------------
+DATA16_AN
   Relative segment, address: 021C - 021D (0x2 bytes), align: 0
-  Segment part 2. ROOT        Intra module refs:   main
+  Segment part 7. ROOT        Intra module refs:   initMC
+                                                   main (main)
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
            _A_PAIFG_L              021C 
@@ -166,7 +233,8 @@ DATA16_AN
     -------------------------------------------------------------------------
 DATA16_AN
   Relative segment, address: 0222 - 0223 (0x2 bytes), align: 0
-  Segment part 3. ROOT        Intra module refs:   main
+  Segment part 8. ROOT        Intra module refs:   initMC
+                                                   main (main)
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
            _A_PBOUT_L              0222 
@@ -177,8 +245,34 @@ DATA16_AN
            PBOUT_L                 0222 
     -------------------------------------------------------------------------
 DATA16_AN
+  Relative segment, address: 0224 - 0225 (0x2 bytes), align: 0
+  Segment part 9. ROOT        Intra module refs:   initMC
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           _A_PBDIR_L              0224 
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           PBDIR                   0224 
+           PBDIR_H                 0225 
+           PBDIR_L                 0224 
+    -------------------------------------------------------------------------
+DATA16_AN
+  Relative segment, address: 022A - 022B (0x2 bytes), align: 0
+  Segment part 10. ROOT       Intra module refs:   initMC
+                                                   initSPI
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           _A_PBSEL_L              022A 
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           PBSEL                   022A 
+           PBSEL_H                 022B 
+           PBSEL_L                 022A 
+    -------------------------------------------------------------------------
+DATA16_AN
   Relative segment, address: 0242 - 0243 (0x2 bytes), align: 0
-  Segment part 4. ROOT        Intra module refs:   main
+  Segment part 11. ROOT       Intra module refs:   initR2R
+                                                   main (main)
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
            _A_PCOUT_L              0242 
@@ -189,15 +283,119 @@ DATA16_AN
            PCOUT_L                 0242 
     -------------------------------------------------------------------------
 DATA16_AN
-  Relative segment, address: 060E - 060E (0x1 bytes), align: 0
-  Segment part 5. ROOT        Intra module refs:   UART_send
+  Relative segment, address: 0244 - 0245 (0x2 bytes), align: 0
+  Segment part 12. ROOT       Intra module refs:   initR2R
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           UCA1TXBUF               060E 
+           _A_PCDIR_L              0244 
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           PCDIR                   0244 
+           PCDIR_H                 0245 
+           PCDIR_L                 0244 
+    -------------------------------------------------------------------------
+DATA16_AN
+  Relative segment, address: 0380 - 0381 (0x2 bytes), align: 0
+  Segment part 13. ROOT       Intra module refs:   initPWM
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           TA1CTL                  0380 
+    -------------------------------------------------------------------------
+DATA16_AN
+  Relative segment, address: 0384 - 0385 (0x2 bytes), align: 0
+  Segment part 14. ROOT       Intra module refs:   initPWM
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           TA1CCTL1                0384 
+    -------------------------------------------------------------------------
+DATA16_AN
+  Relative segment, address: 0392 - 0393 (0x2 bytes), align: 0
+  Segment part 15. ROOT       Intra module refs:   initPWM
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           TA1CCR0                 0392 
+    -------------------------------------------------------------------------
+DATA16_AN
+  Relative segment, address: 0394 - 0395 (0x2 bytes), align: 0
+  Segment part 16. ROOT       Intra module refs:   initPWM
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           TA1CCR1                 0394 
+    -------------------------------------------------------------------------
+DATA16_AN
+  Relative segment, address: 05E0 - 05E1 (0x2 bytes), align: 0
+  Segment part 17. ROOT       Intra module refs:   initSPI
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           _A_UCB0CTLW0_L          05E0 
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           UCB0CTLW0               05E0 
+           UCB0CTLW0_H             05E1 
+           UCB0CTLW0_L             05E0 
+    -------------------------------------------------------------------------
+DATA16_AN
+  Relative segment, address: 05FC - 05FD (0x2 bytes), align: 0
+  Segment part 18. ROOT       Intra module refs:   SPI_recieve (main)
+                                                   initSPI
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           _A_UCB0ICTL_L           05FC 
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           UCB0ICTL                05FC 
+           UCB0ICTL_H              05FD 
+           UCB0ICTL_L              05FC 
+    -------------------------------------------------------------------------
+DATA16_AN
+  Relative segment, address: 0600 - 0601 (0x2 bytes), align: 0
+  Segment part 19. ROOT       Intra module refs:   initUART
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           _A_UCA1CTLW0_L          0600 
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           UCA1CTLW0               0600 
+           UCA1CTLW0_H             0601 
+           UCA1CTLW0_L             0600 
+    -------------------------------------------------------------------------
+DATA16_AN
+  Relative segment, address: 0606 - 0607 (0x2 bytes), align: 0
+  Segment part 20. ROOT       Intra module refs:   initUART
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           _A_UCA1BRW_L            0606 
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           UCA1BRW                 0606 
+           UCA1BRW_H               0607 
+           UCA1BRW_L               0606 
+    -------------------------------------------------------------------------
+DATA16_AN
+  Relative segment, address: 0608 - 0608 (0x1 bytes), align: 0
+  Segment part 21. ROOT       Intra module refs:   initUART
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           UCA1MCTL                0608 
+    -------------------------------------------------------------------------
+DATA16_AN
+  Relative segment, address: 060A - 060A (0x1 bytes), align: 0
+  Segment part 22. ROOT       Intra module refs:   initUART
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           UCA1STAT                060A 
+    -------------------------------------------------------------------------
+DATA16_AN
+  Relative segment, address: 0610 - 0610 (0x1 bytes), align: 0
+  Segment part 23. ROOT       Intra module refs:   initUART
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           UCA1ABCTL               0610 
     -------------------------------------------------------------------------
 DATA16_AN
   Relative segment, address: 061C - 061D (0x2 bytes), align: 0
-  Segment part 6. ROOT        Intra module refs:   UART_send
+  Segment part 24. ROOT       Intra module refs:   UART_send (main)
+                                                   initUART
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
            _A_UCA1ICTL_L           061C 
@@ -207,84 +405,159 @@ DATA16_AN
            UCA1ICTL_H              061D 
            UCA1ICTL_L              061C 
     -------------------------------------------------------------------------
+DATA16_AN
+  Relative segment, address: 015C - 015D (0x2 bytes), align: 0
+  Segment part 25. ROOT       Intra module refs:   initMC
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           _A_WDTCTL_L             015C 
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           WDTCTL                  015C 
+           WDTCTL_H                015D 
+           WDTCTL_L                015C 
+    -------------------------------------------------------------------------
+<CODE> 1 (was CODE)
+  Relative segment, address: 44D8 - 451D (0x46 bytes), align: 1
+  Segment part 27.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           initMC                  44D8            main (main)
+    -------------------------------------------------------------------------
+<CODE> 1 (was CODE)
+  Relative segment, address: 45CC - 45EB (0x20 bytes), align: 1
+  Segment part 28.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           initPWM                 45CC            main (main)
+    -------------------------------------------------------------------------
+<CODE> 1 (was CODE)
+  Relative segment, address: 4622 - 462B (0xa bytes), align: 1
+  Segment part 29.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           initR2R                 4622            main (main)
+    -------------------------------------------------------------------------
+<CODE> 1 (was CODE)
+  Relative segment, address: 45A8 - 45CB (0x24 bytes), align: 1
+  Segment part 30.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           initSPI                 45A8            main (main)
+    -------------------------------------------------------------------------
+<CODE> 1 (was CODE)
+  Relative segment, address: 4554 - 4581 (0x2e bytes), align: 1
+  Segment part 31.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           initUART                4554            main (main)
+
+    *************************************************************************
+
+  FILE NAME : C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\Debug\Obj\main.r43
+  PROGRAM MODULE, NAME : main
+
+  SEGMENTS IN THE MODULE
+  ======================
+DATA16_AN
+  Relative segment, address: 05EC - 05EC (0x1 bytes), align: 0
+  Segment part 5. ROOT        Intra module refs:   SPI_recieve
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           UCB0RXBUF               05EC 
+    -------------------------------------------------------------------------
+DATA16_AN
+  Relative segment, address: 05EE - 05EE (0x1 bytes), align: 0
+  Segment part 6. ROOT        Intra module refs:   SPI_recieve
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           UCB0TXBUF               05EE 
+    -------------------------------------------------------------------------
+DATA16_AN
+  Relative segment, address: 060E - 060E (0x1 bytes), align: 0
+  Segment part 8. ROOT        Intra module refs:   UART_send
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           UCA1TXBUF               060E 
+    -------------------------------------------------------------------------
 DATA16_Z
   Relative segment, address: 2404 - 2405 (0x2 bytes), align: 1
-  Segment part 8.             Intra module refs:   main
+  Segment part 11.            Intra module refs:   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
            conversioncounter       2404 
     -------------------------------------------------------------------------
 DATA16_Z
   Relative segment, address: 2406 - 2407 (0x2 bytes), align: 1
-  Segment part 9.             Intra module refs:   main
+  Segment part 12.            Intra module refs:   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
            pwm_on                  2406 
     -------------------------------------------------------------------------
 DATA16_I
   Relative segment, address: 2400 - 2401 (0x2 bytes), align: 1
-  Segment part 10.            Intra module refs:   main
+  Segment part 13.            Intra module refs:   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
            pwm_anzahl              2400 
     -------------------------------------------------------------------------
 DATA16_Z
   Relative segment, address: 2408 - 2409 (0x2 bytes), align: 1
-  Segment part 12.            Intra module refs:   main
+  Segment part 15.            Intra module refs:   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
            r2r_ansteuerung         2408 
     -------------------------------------------------------------------------
 DATA16_Z
   Relative segment, address: 240A - 240B (0x2 bytes), align: 1
-  Segment part 15.            Intra module refs:   main
+  Segment part 18.            Intra module refs:   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
            mittelwert              240A 
     -------------------------------------------------------------------------
 DATA16_I
   Relative segment, address: 2402 - 2403 (0x2 bytes), align: 1
-  Segment part 16.            Intra module refs:   main
+  Segment part 19.            Intra module refs:   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
            mittelwert_anzahl       2402 
     -------------------------------------------------------------------------
 DATA16_Z
   Relative segment, address: 240C - 240F (0x4 bytes), align: 1
-  Segment part 18.            Intra module refs:   main
+  Segment part 21.            Intra module refs:   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
            sum                     240C 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: 442C - 44BB (0x90 bytes), align: 1
-  Segment part 20.
+  Relative segment, address: 442C - 44D7 (0xac bytes), align: 1
+  Segment part 23.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
            main                    442C            Segment part 27 (?cstart)
                calls direct
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: 4520 - 4523 (0x4 bytes), align: 1
-  Segment part 21.            Intra module refs:   main
+  Relative segment, address: 451E - 4553 (0x36 bytes), align: 1
+  Segment part 24.            Intra module refs:   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           SPI_recieve             4520 
+           SPI_recieve             451E 
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: 44BC - 44E1 (0x26 bytes), align: 1
-  Segment part 19.            Intra module refs:   main
+  Relative segment, address: 4582 - 45A7 (0x26 bytes), align: 1
+  Segment part 22.            Intra module refs:   main
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           UART_send               44BC 
+           UART_send               4582 
     -------------------------------------------------------------------------
 DATA16_ID
   Relative segment, address: 4400 - 4401 (0x2 bytes), align: 1
-  Segment part 11.            Intra module refs:   pwm_anzahl
+  Segment part 14.            Intra module refs:   pwm_anzahl
     -------------------------------------------------------------------------
 DATA16_ID
   Relative segment, address: 4402 - 4403 (0x2 bytes), align: 1
-  Segment part 17.            Intra module refs:   mittelwert_anzahl
+  Segment part 20.            Intra module refs:   mittelwert_anzahl
 
     *************************************************************************
 
@@ -294,11 +567,11 @@ DATA16_ID
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: 4528 - 4529 (0x2 bytes), align: 1
+  Relative segment, address: 4638 - 4639 (0x2 bytes), align: 1
   Segment part 2.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           __DebugBreak            4528            __exit (?__exit)
+           __DebugBreak            4638            __exit (?__exit)
 
     -------------------------------------------------------------------------
   LIBRARY MODULE, NAME : ?__exit
@@ -306,11 +579,11 @@ DATA16_ID
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: 44E2 - 44F5 (0x14 bytes), align: 1
+  Relative segment, address: 45EC - 45FF (0x14 bytes), align: 1
   Segment part 2.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           __exit                  44E2            Segment part 6 (?_exit)
+           __exit                  45EC            Segment part 6 (?_exit)
                                                    _exit (?_exit)
                calls direct
 
@@ -320,14 +593,14 @@ DATA16_ID
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: 451C, align: 1
+  Relative segment, address: 4630, align: 1
   Segment part 0.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           _exit                   451C            exit (?exit)
+           _exit                   4630            exit (?exit)
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: 451C - 451F (0x4 bytes), align: 1
+  Relative segment, address: 4630 - 4633 (0x4 bytes), align: 1
   Segment part 6.             Intra module refs:   _exit
 
     -------------------------------------------------------------------------
@@ -356,7 +629,7 @@ CODE_I
   Segment part 5.
     -------------------------------------------------------------------------
 CODE_ID
-  Relative segment, address: 452A, align: 1
+  Relative segment, address: 463A, align: 1
   Segment part 6.
     -------------------------------------------------------------------------
 DATA20_Z
@@ -368,11 +641,11 @@ DATA20_I
   Segment part 8.
     -------------------------------------------------------------------------
 DATA20_ID
-  Relative segment, address: 452A, align: 1
+  Relative segment, address: 463A, align: 1
   Segment part 9.
     -------------------------------------------------------------------------
 DATA20_C
-  Relative segment, address: 452A, align: 1
+  Relative segment, address: 463A, align: 1
   Segment part 10.
     -------------------------------------------------------------------------
 DATA20_N
@@ -416,7 +689,7 @@ CSTART
            ?cstart_end             442C 
     -------------------------------------------------------------------------
 CODE_ID
-  Relative segment, address: 452A, align: 1
+  Relative segment, address: 463A, align: 1
   Segment part 28.            Intra module refs:   Segment part 5
 
     -------------------------------------------------------------------------
@@ -437,11 +710,11 @@ RESET
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: 4518 - 451B (0x4 bytes), align: 1
+  Relative segment, address: 462C - 462F (0x4 bytes), align: 1
   Segment part 2.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           exit                    4518            Segment part 27 (?cstart)
+           exit                    462C            Segment part 27 (?cstart)
                calls direct
 
     -------------------------------------------------------------------------
@@ -450,11 +723,11 @@ RESET
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: 44F6 - 4507 (0x12 bytes), align: 1
+  Relative segment, address: 4600 - 4611 (0x12 bytes), align: 1
   Segment part 2.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           memcpy                  44F6            __data16_memcpy (?memzero)
+           memcpy                  4600            __data16_memcpy (?memzero)
 
     -------------------------------------------------------------------------
   LIBRARY MODULE, NAME : ?memzero
@@ -462,18 +735,18 @@ RESET
   SEGMENTS IN THE MODULE
   ======================
 <CODE> 1 (was CODE)
-  Relative segment, address: 4508 - 4517 (0x10 bytes), align: 1
+  Relative segment, address: 4612 - 4621 (0x10 bytes), align: 1
   Segment part 2.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           __data16_memzero        4508            ?cstart_init_zero (?cstart)
+           __data16_memzero        4612            ?cstart_init_zero (?cstart)
     -------------------------------------------------------------------------
 <CODE> 1 (was CODE)
-  Relative segment, address: 4524 - 4527 (0x4 bytes), align: 1
+  Relative segment, address: 4634 - 4637 (0x4 bytes), align: 1
   Segment part 3.
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           __data16_memcpy         4524            ?cstart_init_copy (?cstart)
+           __data16_memcpy         4634            ?cstart_init_copy (?cstart)
                calls direct
 
 
@@ -488,11 +761,25 @@ RESET
 
 SEGMENT              SPACE    START ADDRESS   END ADDRESS     SIZE  TYPE  ALIGN
 =======              =====    =============   ===========     ====  ====  =====
-DATA16_AN                              0202 - 0203               2   rel    0
-                                       021C - 021D               2 
-                                       0222 - 0223               2 
-                                       0242 - 0243               2 
+DATA16_AN                              015C - 015D               2   rel    0
+                                       0202 - 0207               6 
+                                       020A - 020B               2 
+                                       0218 - 021D               6 
+                                       0222 - 0225               4 
+                                       022A - 022B               2 
+                                       0242 - 0245               4 
+                                       0380 - 0381               2 
+                                       0384 - 0385               2 
+                                       0392 - 0395               4 
+                                       05E0 - 05E1               2 
+                                       05EC - 05EC               1 
+                                       05EE - 05EE               1 
+                                       05FC - 05FD               2 
+                                       0600 - 0601               2 
+                                       0606 - 0608               3 
+                                       060A - 060A               1 
                                        060E - 060E               1 
+                                       0610 - 0610               1 
                                        061C - 061D               2 
 DATA16_I                               2400 - 2403               4   rel    1
 DATA16_Z                               2404 - 240F               C   rel    1
@@ -504,10 +791,10 @@ CSTACK                                 4360 - 43FF              A0   rel    1
 DATA16_C                                  4400                       dse    0
 DATA16_ID                              4400 - 4403               4   rel    1
 CSTART                                 4404 - 442B              28   rel    1
-<CODE> 1                               442C - 4529              FE   rel    1
-CODE_ID                                   452A                       rel    1
-DATA20_ID                                 452A                       rel    1
-DATA20_C                                  452A                       rel    1
+<CODE> 1                               442C - 4639             20E   rel    1
+CODE_ID                                   463A                       rel    1
+DATA20_ID                                 463A                       rel    1
+DATA20_C                                  463A                       rel    1
 RESET                                  FFFE - FFFF               2   rel    1
 
                 ****************************************
@@ -516,8 +803,8 @@ RESET                                  FFFE - FFFF               2   rel    1
                 *                                      *
                 ****************************************
 
- 296 bytes of CODE  memory
- 176 bytes of DATA  memory (+ 11 absolute )
+ 568 bytes of CODE  memory
+ 176 bytes of DATA  memory (+ 50 absolute )
    4 bytes of CONST memory
 
 Errors: none

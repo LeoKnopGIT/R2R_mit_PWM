@@ -1,0 +1,394 @@
+###############################################################################
+#
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          31/Jul/2024  16:51:46
+# Copyright 1996-2021 IAR Systems AB.
+# PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
+#
+#    __rt_version  =  3
+#    __double_size =  32
+#    __reg_r4      =  free
+#    __reg_r5      =  free
+#    __pic         =  no
+#    __core        =  430X
+#    __data_model  =  small
+#    __code_model  =  large
+#    Source file   =  
+#        C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\lib\init.c
+#    Command line  =  
+#        -f C:\Users\elokn\AppData\Local\Temp\EWA32B.tmp
+#        (C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\lib\init.c
+#        -lC
+#        C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\Debug\List
+#        -o
+#        C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\Debug\Obj
+#        --no_cse --no_unroll --no_inline --no_code_motion --no_tbaa --debug
+#        -D__MSP430F5529__ -e --double=32 --dlib_config "C:\Program Files
+#        (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h"
+#        --core=430X --data_model=small -Ol --multiplier=32
+#        --hw_workaround=CPU40 --hw_workaround=nop_after_lpm
+#        --code_model=large)
+#    Locale        =  German_DEU.1252
+#    List file     =  
+#        C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\Debug\List\init.lst
+#    Object file   =  
+#        C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\Debug\Obj\init.r43
+#
+###############################################################################
+
+C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\lib\init.c
+      1          // INIT -> Alle Initfunktionen werden hier definiert
+      2          #include "msp430F5529.h"
+
+   \                                 In  segment DATA16_AN, at 0x202
+   \   union <unnamed> _A_PAOUT_L
+   \                     _A_PAOUT_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x204
+   \   union <unnamed> _A_PADIR_L
+   \                     _A_PADIR_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x206
+   \   union <unnamed> _A_PAREN_L
+   \                     _A_PAREN_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x20a
+   \   union <unnamed> _A_PASEL_L
+   \                     _A_PASEL_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x218
+   \   union <unnamed> _A_PAIES_L
+   \                     _A_PAIES_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x21a
+   \   union <unnamed> _A_PAIE_L
+   \                     _A_PAIE_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x21c
+   \   union <unnamed> _A_PAIFG_L
+   \                     _A_PAIFG_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x222
+   \   union <unnamed> _A_PBOUT_L
+   \                     _A_PBOUT_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x224
+   \   union <unnamed> _A_PBDIR_L
+   \                     _A_PBDIR_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x22a
+   \   union <unnamed> _A_PBSEL_L
+   \                     _A_PBSEL_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x242
+   \   union <unnamed> _A_PCOUT_L
+   \                     _A_PCOUT_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x244
+   \   union <unnamed> _A_PCDIR_L
+   \                     _A_PCDIR_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x380
+   \   unsigned short volatile TA1CTL
+   \                     TA1CTL:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x384
+   \   unsigned short volatile TA1CCTL1
+   \                     TA1CCTL1:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x392
+   \   unsigned short volatile TA1CCR0
+   \                     TA1CCR0:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x394
+   \   unsigned short volatile TA1CCR1
+   \                     TA1CCR1:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x5e0
+   \   union <unnamed> _A_UCB0CTLW0_L
+   \                     _A_UCB0CTLW0_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x5fc
+   \   union <unnamed> _A_UCB0ICTL_L
+   \                     _A_UCB0ICTL_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x600
+   \   union <unnamed> _A_UCA1CTLW0_L
+   \                     _A_UCA1CTLW0_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x606
+   \   union <unnamed> _A_UCA1BRW_L
+   \                     _A_UCA1BRW_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x608
+   \   unsigned char volatile UCA1MCTL
+   \                     UCA1MCTL:
+   \   000000                DS8 1
+
+   \                                 In  segment DATA16_AN, at 0x60a
+   \   unsigned char volatile UCA1STAT
+   \                     UCA1STAT:
+   \   000000                DS8 1
+
+   \                                 In  segment DATA16_AN, at 0x610
+   \   unsigned char volatile UCA1ABCTL
+   \                     UCA1ABCTL:
+   \   000000                DS8 1
+
+   \                                 In  segment DATA16_AN, at 0x61c
+   \   union <unnamed> _A_UCA1ICTL_L
+   \                     _A_UCA1ICTL_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x15c
+   \   union <unnamed> _A_WDTCTL_L
+   \                     _A_WDTCTL_L:
+   \   000000                DS8 2
+      3          
+
+   \                                 In  segment CODE, align 2
+      4          void initMC(void)
+   \                     initMC:
+      5          {
+      6            // Stop watchdog timer to prevent time out reset
+      7            WDTCTL = WDTPW + WDTHOLD;
+   \   000000   B240805A5C01 MOV.W   #0x5a80, &0x15c
+   \   000006   0343         NOP
+      8            __bis_SR_register(GIE);     // Global Interrupt Enable
+   \   000008   32D2         BIS.W   #0x8, SR
+      9            
+     10            //LEDs als Ausgänge
+     11            P4DIR |= BIT7;        // Ausgang
+   \   00000A   F2D080002502 BIS.B   #0x80, &0x225
+     12            P4SEL &= ~BIT7;       // GIO PIN
+   \   000010   F2C080002B02 BIC.B   #0x80, &0x22b
+     13            P4OUT &= ~BIT7;       // LED aus
+   \   000016   F2C080002302 BIC.B   #0x80, &0x223
+     14            
+     15            P1DIR |= BIT0;        // Ausgang
+   \   00001C   D2D30402     BIS.B   #0x1, &0x204
+     16            P1SEL &= ~BIT0;       // GIO PIN
+   \   000020   D2C30A02     BIC.B   #0x1, &0x20a
+     17            P1OUT &= ~BIT0;       // LED aus
+   \   000024   D2C30202     BIC.B   #0x1, &0x202
+     18            
+     19            // Button S2 als Start
+     20            P1IFG &= ~BIT1;       // Interruptflag löschen
+   \   000028   E2C31C02     BIC.B   #0x2, &0x21c
+     21            
+     22            P1DIR &= ~BIT1;       // Eingang nach Tabelle 12-1 aus dem Userguide
+   \   00002C   E2C30402     BIC.B   #0x2, &0x204
+     23            P1REN |= BIT1;        // PullUp/Pulldown aktiviert
+   \   000030   E2D30602     BIS.B   #0x2, &0x206
+     24            P1OUT |= BIT1;        // PullUp ausgewählt
+   \   000034   E2D30202     BIS.B   #0x2, &0x202
+     25            
+     26            P1SEL &= ~BIT1;       // GIO PIN
+   \   000038   E2C30A02     BIC.B   #0x2, &0x20a
+     27            P1IES |= BIT1;        // Interrupt auf negative Flanke 
+   \   00003C   E2D31802     BIS.B   #0x2, &0x218
+     28            P1IE |= BIT1;         // Interrupt freigeben
+   \   000040   E2D31A02     BIS.B   #0x2, &0x21a
+     29          }
+   \   000044   1001         RETA
+   \   000046                REQUIRE _A_WDTCTL_L
+   \   000046                REQUIRE _A_PBDIR_L
+   \   000046                REQUIRE _A_PBSEL_L
+   \   000046                REQUIRE _A_PBOUT_L
+   \   000046                REQUIRE _A_PADIR_L
+   \   000046                REQUIRE _A_PASEL_L
+   \   000046                REQUIRE _A_PAOUT_L
+   \   000046                REQUIRE _A_PAIFG_L
+   \   000046                REQUIRE _A_PAREN_L
+   \   000046                REQUIRE _A_PAIES_L
+   \   000046                REQUIRE _A_PAIE_L
+     30          
+
+   \                                 In  segment CODE, align 2
+     31          void initPWM(int pwm_anzahl, int pwm_on)
+   \                     initPWM:
+     32          {
+     33            // P2.0 ist Output der PWM
+     34            P2DIR |= BIT0;        // P2.0 ist Ausgang
+   \   000000   D2D30502     BIS.B   #0x1, &0x205
+     35            P2SEL |= BIT0;        // P2.0 ist kein GPIO	
+   \   000004   D2D30B02     BIS.B   #0x1, &0x20b
+     36            
+     37            // Timer A0 realisiert PWM
+     38            TA1CCR0 = pwm_anzahl - 1;                             // "pwm_aufloesung" -Bit Auflusung für PWM   f_PWM=1,048MHz/8/128=1,04kHz
+   \   000008   3C53         ADD.W   #0xffff, R12
+   \   00000A   824C9203     MOV.W   R12, &0x392
+     39            TA1CCTL1 = OUTMOD_7;                                  // CCR1 im Reset/Set Modus
+   \   00000E   B240E0008403 MOV.W   #0xe0, &0x384
+     40            TA1CCR1 = pwm_on;                                     // PWM_on bestimmt Pulsbreite 
+   \   000014   824D9403     MOV.W   R13, &0x394
+     41            TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_2 + ID_1;       // SMCLK, up mode, loesche TAR f_clk/8	  
+   \   000018   B240D4028003 MOV.W   #0x2d4, &0x380
+     42          }
+   \   00001E   1001         RETA
+   \   000020                REQUIRE _A_PADIR_L
+   \   000020                REQUIRE _A_PASEL_L
+   \   000020                REQUIRE TA1CCR0
+   \   000020                REQUIRE TA1CCTL1
+   \   000020                REQUIRE TA1CCR1
+   \   000020                REQUIRE TA1CTL
+     43          
+
+   \                                 In  segment CODE, align 2
+     44          void initR2R(void)
+   \                     initR2R:
+     45          {
+     46            P6DIR = 0xFF; // Jeder Pin ist Ausgang
+   \   000000   F2434502     MOV.B   #0xff, &0x245
+     47            P6OUT = 0x00; // Jeder Pin erstmals auf 0
+   \   000004   C2434302     MOV.B   #0x0, &0x243
+     48          }
+   \   000008   1001         RETA
+   \   00000A                REQUIRE _A_PCDIR_L
+   \   00000A                REQUIRE _A_PCOUT_L
+     49          
+     50          // INIT von SPI/UART nach fogendem Schema (Siehe Userguide S894):
+     51          // 1)SWRST-Mode
+     52          // 2)Config
+     53          // 3)Port Config
+     54          // 4)End SWRST-Mode
+     55          // 5)Enable Interrupts
+     56          
+
+   \                                 In  segment CODE, align 2
+     57          void initSPI(void)
+   \                     initSPI:
+     58          {
+     59            UCB0CTL1 |= UCSWRST;                                          // SW-Reset Mode
+   \   000000   D2D3E005     BIS.B   #0x1, &0x5e0
+     60            UCB0CTL0 |= UCCKPL + UCMSB + UCMST + UCSYNC;                  // SPI-Konfiguration (siehe Userguide S939)
+   \   000004   F2D06900E105 BIS.B   #0x69, &0x5e1
+     61            UCB0CTL1 |= UCSSEL1;                                          // SMCLK als Taktquelle auswaehlen
+   \   00000A   F2D08000E005 BIS.B   #0x80, &0x5e0
+     62            
+     63            //Pins für SPI
+     64            P3SEL |= BIT0;        // P3.0 ist MISO (Serial Data Output des ADC)
+   \   000010   D2D32A02     BIS.B   #0x1, &0x22a
+     65            
+     66            P2SEL |= BIT3;        // P2.3 ist Chip Select
+   \   000014   F2D20B02     BIS.B   #0x8, &0x20b
+     67            
+     68            UCB0CTL1 &= ~UCSWRST;                                 // Aus SW-Reset in Betrieb nehmen nach Konfiguration
+   \   000018   D2C3E005     BIC.B   #0x1, &0x5e0
+     69            UCB0IE |= UCRXIE + UCTXIE;                            // Interrupt enable
+   \   00001C   F2D00300FC05 BIS.B   #0x3, &0x5fc
+     70          }
+   \   000022   1001         RETA
+   \   000024                REQUIRE _A_UCB0CTLW0_L
+   \   000024                REQUIRE _A_PBSEL_L
+   \   000024                REQUIRE _A_PASEL_L
+   \   000024                REQUIRE _A_UCB0ICTL_L
+     71          
+
+   \                                 In  segment CODE, align 2
+     72          void initUART(void)
+   \                     initUART:
+     73          {
+     74            UCA1CTL1 |= UCSWRST;          // SW-Reset Mode
+   \   000000   D2D30006     BIS.B   #0x1, &0x600
+     75            UCA1CTL0 = 0x00;              // Betriebsart des UART: Asynchron, 8 Datenbits, 1 Stopbit, kein Paritybit, LSB zuerst senden/empfangen 
+   \   000004   C2430106     MOV.B   #0x0, &0x601
+     76            UCA1CTL1 |= UCSSEL1;          // SMCLK als Taktquelle ausw?hlen
+   \   000008   F2D080000006 BIS.B   #0x80, &0x600
+     77            UCA1BR0 = 109;                // Lowbyte, Baudrate einstellen
+   \   00000E   F2406D000606 MOV.B   #0x6d, &0x606
+     78            UCA1BR1 = 0;                  // Highbyte, Baudrate einstellen
+   \   000014   C2430706     MOV.B   #0x0, &0x607
+     79            UCA1MCTL |= UCBRS1;           // Modulator einstellen
+   \   000018   E2D20806     BIS.B   #0x4, &0x608
+     80            UCA1STAT = 0x00;              // alle moeglichen Flags loeschen
+   \   00001C   C2430A06     MOV.B   #0x0, &0x60a
+     81            UCA1ABCTL = 0x00;             // keine Auto-Baudrate-Detektion
+   \   000020   C2431006     MOV.B   #0x0, &0x610
+     82            UCA1CTL1 &= ~UCSWRST;         // Aus SW-Reset in Betrieb nehmen nach Konfiguration
+   \   000024   D2C30006     BIC.B   #0x1, &0x600
+     83            UCA1IE |= UCRXIE;             // Interrupt enable
+   \   000028   D2D31C06     BIS.B   #0x1, &0x61c
+     84          }
+   \   00002C   1001         RETA
+   \   00002E                REQUIRE _A_UCA1CTLW0_L
+   \   00002E                REQUIRE _A_UCA1BRW_L
+   \   00002E                REQUIRE UCA1MCTL
+   \   00002E                REQUIRE UCA1STAT
+   \   00002E                REQUIRE UCA1ABCTL
+   \   00002E                REQUIRE _A_UCA1ICTL_L
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+      4   initMC
+      4   initPWM
+      4   initR2R
+      4   initSPI
+      4   initUART
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       2  TA1CCR0
+       2  TA1CCR1
+       2  TA1CCTL1
+       2  TA1CTL
+       1  UCA1ABCTL
+       1  UCA1MCTL
+       1  UCA1STAT
+       2  _A_PADIR_L
+       2  _A_PAIES_L
+       2  _A_PAIE_L
+       2  _A_PAIFG_L
+       2  _A_PAOUT_L
+       2  _A_PAREN_L
+       2  _A_PASEL_L
+       2  _A_PBDIR_L
+       2  _A_PBOUT_L
+       2  _A_PBSEL_L
+       2  _A_PCDIR_L
+       2  _A_PCOUT_L
+       2  _A_UCA1BRW_L
+       2  _A_UCA1CTLW0_L
+       2  _A_UCA1ICTL_L
+       2  _A_UCB0CTLW0_L
+       2  _A_UCB0ICTL_L
+       2  _A_WDTCTL_L
+      70  initMC
+      32  initPWM
+      10  initR2R
+      36  initSPI
+      46  initUART
+
+ 
+ 194 bytes in segment CODE
+  47 bytes in segment DATA16_AN
+ 
+ 194 bytes of CODE memory
+   0 bytes of DATA memory (+ 47 bytes shared)
+
+Errors: none
+Warnings: none

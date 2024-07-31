@@ -25126,6 +25126,20 @@
         },
         "members": [
           {
+            "ID": "c:msp430F5529.h@Ua@FI@PMMCTL1",
+            "What": "FieldDecl",
+            "defdec": "Def",
+            "display": "PMMCTL1",
+            "location": {
+              "column": "1",
+              "line": "1790",
+              "path": "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.5\\430\\inc\\msp430f5529.h"
+            },
+            "name": "PMMCTL1",
+            "origin": "system_include",
+            "scope": "_anonymous_msp430f5529_h_1790_1::_anonymous_msp430f5529_h_1790_1"
+          },
+          {
             "ID": "c:msp430F5529.h@Ua@Sa@FI@PMMCTL1_H",
             "What": "FieldDecl",
             "defdec": "Def",
@@ -25150,20 +25164,6 @@
               "path": "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.5\\430\\inc\\msp430f5529.h"
             },
             "name": "PMMCTL1_L",
-            "origin": "system_include",
-            "scope": "_anonymous_msp430f5529_h_1790_1::_anonymous_msp430f5529_h_1790_1"
-          },
-          {
-            "ID": "c:msp430F5529.h@Ua@FI@PMMCTL1",
-            "What": "FieldDecl",
-            "defdec": "Def",
-            "display": "PMMCTL1",
-            "location": {
-              "column": "1",
-              "line": "1790",
-              "path": "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.5\\430\\inc\\msp430f5529.h"
-            },
-            "name": "PMMCTL1",
             "origin": "system_include",
             "scope": "_anonymous_msp430f5529_h_1790_1::_anonymous_msp430f5529_h_1790_1"
           }
@@ -25214,6 +25214,20 @@
         },
         "members": [
           {
+            "ID": "c:msp430F5529.h@Ua@FI@SVSMHCTL",
+            "What": "FieldDecl",
+            "defdec": "Def",
+            "display": "SVSMHCTL",
+            "location": {
+              "column": "1",
+              "line": "1792",
+              "path": "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.5\\430\\inc\\msp430f5529.h"
+            },
+            "name": "SVSMHCTL",
+            "origin": "system_include",
+            "scope": "_anonymous_msp430f5529_h_1792_1::_anonymous_msp430f5529_h_1792_1"
+          },
+          {
             "ID": "c:msp430F5529.h@Ua@Sa@FI@SVSMHCTL_H",
             "What": "FieldDecl",
             "defdec": "Def",
@@ -25238,20 +25252,6 @@
               "path": "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.5\\430\\inc\\msp430f5529.h"
             },
             "name": "SVSMHCTL_L",
-            "origin": "system_include",
-            "scope": "_anonymous_msp430f5529_h_1792_1::_anonymous_msp430f5529_h_1792_1"
-          },
-          {
-            "ID": "c:msp430F5529.h@Ua@FI@SVSMHCTL",
-            "What": "FieldDecl",
-            "defdec": "Def",
-            "display": "SVSMHCTL",
-            "location": {
-              "column": "1",
-              "line": "1792",
-              "path": "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.5\\430\\inc\\msp430f5529.h"
-            },
-            "name": "SVSMHCTL",
             "origin": "system_include",
             "scope": "_anonymous_msp430f5529_h_1792_1::_anonymous_msp430f5529_h_1792_1"
           }
@@ -25302,6 +25302,20 @@
         },
         "members": [
           {
+            "ID": "c:msp430F5529.h@Ua@FI@SVSMLCTL",
+            "What": "FieldDecl",
+            "defdec": "Def",
+            "display": "SVSMLCTL",
+            "location": {
+              "column": "1",
+              "line": "1794",
+              "path": "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.5\\430\\inc\\msp430f5529.h"
+            },
+            "name": "SVSMLCTL",
+            "origin": "system_include",
+            "scope": "_anonymous_msp430f5529_h_1794_1::_anonymous_msp430f5529_h_1794_1"
+          },
+          {
             "ID": "c:msp430F5529.h@Ua@Sa@FI@SVSMLCTL_H",
             "What": "FieldDecl",
             "defdec": "Def",
@@ -25326,20 +25340,6 @@
               "path": "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.5\\430\\inc\\msp430f5529.h"
             },
             "name": "SVSMLCTL_L",
-            "origin": "system_include",
-            "scope": "_anonymous_msp430f5529_h_1794_1::_anonymous_msp430f5529_h_1794_1"
-          },
-          {
-            "ID": "c:msp430F5529.h@Ua@FI@SVSMLCTL",
-            "What": "FieldDecl",
-            "defdec": "Def",
-            "display": "SVSMLCTL",
-            "location": {
-              "column": "1",
-              "line": "1794",
-              "path": "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.5\\430\\inc\\msp430f5529.h"
-            },
-            "name": "SVSMLCTL",
             "origin": "system_include",
             "scope": "_anonymous_msp430f5529_h_1794_1::_anonymous_msp430f5529_h_1794_1"
           }
@@ -52420,6 +52420,20 @@
         },
         "members": [
           {
+            "ID": "c:msp430F5529.h@Ua@Sa@FI@UCB0CTLW0_L",
+            "What": "FieldDecl",
+            "defdec": "Def",
+            "display": "UCB0CTLW0_L",
+            "location": {
+              "column": "1",
+              "line": "4404",
+              "path": "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.5\\430\\inc\\msp430f5529.h"
+            },
+            "name": "UCB0CTLW0_L",
+            "origin": "system_include",
+            "scope": "_anonymous_msp430f5529_h_4404_1::_anonymous_msp430f5529_h_4404_1"
+          },
+          {
             "ID": "c:msp430F5529.h@Ua@FI@UCB0CTLW0",
             "What": "FieldDecl",
             "defdec": "Def",
@@ -52444,20 +52458,6 @@
               "path": "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.5\\430\\inc\\msp430f5529.h"
             },
             "name": "UCB0CTLW0_H",
-            "origin": "system_include",
-            "scope": "_anonymous_msp430f5529_h_4404_1::_anonymous_msp430f5529_h_4404_1"
-          },
-          {
-            "ID": "c:msp430F5529.h@Ua@Sa@FI@UCB0CTLW0_L",
-            "What": "FieldDecl",
-            "defdec": "Def",
-            "display": "UCB0CTLW0_L",
-            "location": {
-              "column": "1",
-              "line": "4404",
-              "path": "C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.5\\430\\inc\\msp430f5529.h"
-            },
-            "name": "UCB0CTLW0_L",
             "origin": "system_include",
             "scope": "_anonymous_msp430f5529_h_4404_1::_anonymous_msp430f5529_h_4404_1"
           }
@@ -58257,7 +58257,7 @@
     "ID": "c:@F@initPWM",
     "What": "Function",
     "defdec": "Def",
-    "display": "void initPWM(void)",
+    "display": "void initPWM(int, int)",
     "location": {
       "column": "6",
       "line": "31",
@@ -58288,7 +58288,7 @@
     "display": "void initSPI(void)",
     "location": {
       "column": "6",
-      "line": "56",
+      "line": "57",
       "path": "C:\\Users\\elokn\\Documents\\Studium\\6.Sem\\Untersuchung_R2R_Mittelwert_PWM\\lib\\init.c"
     },
     "name": "initSPI",
@@ -58302,7 +58302,7 @@
     "display": "void initUART(void)",
     "location": {
       "column": "6",
-      "line": "73",
+      "line": "72",
       "path": "C:\\Users\\elokn\\Documents\\Studium\\6.Sem\\Untersuchung_R2R_Mittelwert_PWM\\lib\\init.c"
     },
     "name": "initUART",
@@ -59632,10 +59632,38 @@
     "display": "int SPI_recieve(void)",
     "location": {
       "column": "5",
-      "line": "61",
+      "line": "64",
       "path": "C:\\Users\\elokn\\Documents\\Studium\\6.Sem\\Untersuchung_R2R_Mittelwert_PWM\\main.c"
     },
     "name": "SPI_recieve",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:main.c@2500@F@SPI_recieve@msb_byte",
+    "What": "Variable",
+    "defdec": "Def",
+    "display": "msb_byte",
+    "location": {
+      "column": "7",
+      "line": "66",
+      "path": "C:\\Users\\elokn\\Documents\\Studium\\6.Sem\\Untersuchung_R2R_Mittelwert_PWM\\main.c"
+    },
+    "name": "msb_byte",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:main.c@2521@F@SPI_recieve@lsb_byte",
+    "What": "Variable",
+    "defdec": "Def",
+    "display": "lsb_byte",
+    "location": {
+      "column": "7",
+      "line": "67",
+      "path": "C:\\Users\\elokn\\Documents\\Studium\\6.Sem\\Untersuchung_R2R_Mittelwert_PWM\\main.c"
+    },
+    "name": "lsb_byte",
     "origin": "project_file",
     "scope": null
   },
@@ -59646,7 +59674,7 @@
     "display": "void UART_send(int)",
     "location": {
       "column": "6",
-      "line": "66",
+      "line": "80",
       "path": "C:\\Users\\elokn\\Documents\\Studium\\6.Sem\\Untersuchung_R2R_Mittelwert_PWM\\main.c"
     },
     "name": "UART_send",
@@ -59654,13 +59682,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@2470@F@UART_send@lsb_byte",
+    "ID": "c:main.c@3087@F@UART_send@lsb_byte",
     "What": "Variable",
     "defdec": "Def",
     "display": "lsb_byte",
     "location": {
       "column": "8",
-      "line": "68",
+      "line": "82",
       "path": "C:\\Users\\elokn\\Documents\\Studium\\6.Sem\\Untersuchung_R2R_Mittelwert_PWM\\main.c"
     },
     "name": "lsb_byte",
@@ -59668,13 +59696,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@2507@F@UART_send@msb_byte",
+    "ID": "c:main.c@3124@F@UART_send@msb_byte",
     "What": "Variable",
     "defdec": "Def",
     "display": "msb_byte",
     "location": {
       "column": "8",
-      "line": "69",
+      "line": "83",
       "path": "C:\\Users\\elokn\\Documents\\Studium\\6.Sem\\Untersuchung_R2R_Mittelwert_PWM\\main.c"
     },
     "name": "msb_byte",
@@ -59713,7 +59741,7 @@
     "ID": "c:@F@initPWM",
     "What": "Function",
     "defdec": "Dec",
-    "display": "void initPWM(void)",
+    "display": "void initPWM(int, int)",
     "location": {
       "column": "6",
       "line": "7",

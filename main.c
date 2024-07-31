@@ -23,7 +23,11 @@ void UART_send(int two_bytes);
 void main(void)
 {
   // Initialisierungen
-  
+  initMC();
+  initPWM(pwm_anzahl, pwm_on);
+  initR2R();
+  initSPI();
+  initUART();
   
   while(1)
   {
@@ -57,10 +61,20 @@ void main(void)
   }
 }
 
-
 int SPI_recieve(void)
 {
-  return 0;
+  int msb_byte = 0;
+  int lsb_byte = 0;
+  
+  UCB0TXBUF = 0;                        // 8 Flanken an Slave senden
+  while((UCB0IFG & UCRXIFG) ==0);       // Auf Antwort warten
+  msb_byte = UCB0RXBUF;                 // Antwort in msb_byte speichern
+  
+  UCB0TXBUF = 0;                        // 8 Flanken an Slave senden
+  while((UCB0IFG & UCRXIFG) == 0);       // Auf Antwort warten
+  lsb_byte = UCB0RXBUF;                 // Antwort in msb_byte speichern
+  
+  return (msb_byte << 8 + lsb_byte);     // bytes in 16bit int zusammensetzen
 }
 
 void UART_send(int two_bytes)
