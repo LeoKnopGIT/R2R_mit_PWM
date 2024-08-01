@@ -1,0 +1,7 @@
+main.pbi: \
+  C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\lib\interface.h \
+  C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\lib\init.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.5\430\inc\intrinsics.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.5\430\inc\in430.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.5\430\inc\msp430F5529.h \
+  C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\main.c

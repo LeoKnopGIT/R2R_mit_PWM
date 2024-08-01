@@ -1,0 +1,172 @@
+###############################################################################
+#
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          01/Aug/2024  13:00:22
+# Copyright 1996-2021 IAR Systems AB.
+# PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
+#
+#    __rt_version  =  3
+#    __double_size =  32
+#    __reg_r4      =  free
+#    __reg_r5      =  free
+#    __pic         =  no
+#    __core        =  430X
+#    __data_model  =  small
+#    __code_model  =  large
+#    Source file   =  
+#        C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\lib\interface.c
+#    Command line  =  
+#        -f C:\Users\elokn\AppData\Local\Temp\EW242E.tmp
+#        (C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\lib\interface.c
+#        -lC
+#        C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\Debug\List
+#        -o
+#        C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\Debug\Obj
+#        --no_cse --no_unroll --no_inline --no_code_motion --no_tbaa --debug
+#        -D__MSP430F5529__ -e --double=32 --dlib_config "C:\Program Files
+#        (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h"
+#        --core=430X --data_model=small -Ol --multiplier=32
+#        --hw_workaround=CPU40 --hw_workaround=nop_after_lpm
+#        --code_model=large)
+#    Locale        =  German_DEU.1252
+#    List file     =  
+#        C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\Debug\List\interface.lst
+#    Object file   =  
+#        C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\Debug\Obj\interface.r43
+#
+###############################################################################
+
+C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\lib\interface.c
+      1          // INTERFACE -> SPI und UART-funktionen werden hier definiert
+      2          
+      3          #include "msp430F5529.h"
+
+   \                                 In  segment DATA16_AN, at 0x5ec
+   \   unsigned char const volatile UCB0RXBUF
+   \                     UCB0RXBUF:
+   \   000000                DS8 1
+
+   \                                 In  segment DATA16_AN, at 0x5ee
+   \   unsigned char volatile UCB0TXBUF
+   \                     UCB0TXBUF:
+   \   000000                DS8 1
+
+   \                                 In  segment DATA16_AN, at 0x5fc
+   \   union <unnamed> _A_UCB0ICTL_L
+   \                     _A_UCB0ICTL_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x60e
+   \   unsigned char volatile UCA1TXBUF
+   \                     UCA1TXBUF:
+   \   000000                DS8 1
+
+   \                                 In  segment DATA16_AN, at 0x61c
+   \   union <unnamed> _A_UCA1ICTL_L
+   \                     _A_UCA1ICTL_L:
+   \   000000                DS8 2
+      4          
+
+   \                                 In  segment CODE, align 2
+      5          int SPI_recieve(void)
+   \                     SPI_recieve:
+      6          {
+      7            int msb_byte = 0;
+   \   000000   0C43         MOV.W   #0x0, R12
+      8            int lsb_byte = 0;
+   \   000002   0E43         MOV.W   #0x0, R14
+      9            
+     10            UCB0TXBUF = 0;                         // 8 Flanken an Slave senden
+   \   000004   C243EE05     MOV.B   #0x0, &0x5ee
+     11            while((UCRXIFG & UCB0IFG) == 0);       // Auf Antwort warten
+   \                     ??SPI_recieve_0:
+   \   000008   D2B3FD05     BIT.B   #0x1, &0x5fd
+   \   00000C   FD2B         JNC     ??SPI_recieve_0
+     12            msb_byte = UCB0RXBUF;                  // Antwort in msb_byte speichern
+   \   00000E   5C42EC05     MOV.B   &0x5ec, R12
+   \   000012   4C4C         MOV.B   R12, R12
+     13            
+     14            UCB0TXBUF = 0;                         // 8 Flanken an Slave senden
+   \   000014   C243EE05     MOV.B   #0x0, &0x5ee
+     15            while((UCRXIFG & UCB0IFG) == 0);       // Auf Antwort warten
+   \                     ??SPI_recieve_1:
+   \   000018   D2B3FD05     BIT.B   #0x1, &0x5fd
+   \   00001C   FD2B         JNC     ??SPI_recieve_1
+     16            lsb_byte = UCB0RXBUF;                  // Antwort in msb_byte speichern
+   \   00001E   5E42EC05     MOV.B   &0x5ec, R14
+   \   000022   4E4E         MOV.B   R14, R14
+     17            
+     18            return (msb_byte << 8 + lsb_byte);     // bytes in 16bit int zusammensetzen
+   \   000024   7E52         ADD.B   #0x8, R14
+   \   000026   BE000100     SUBA    #0x1, R14
+   \   00002A   0230         JN      ??SPI_recieve_2
+   \   00002C                RPT     R14
+   \   00002C   CE180C5C     RLAX.W  R12
+   \                     ??SPI_recieve_2:
+   \   000030   AE000100     ADDA    #0x1, R14
+   \   000034   1001         RETA
+   \   000036                REQUIRE UCB0TXBUF
+   \   000036                REQUIRE _A_UCB0ICTL_L
+   \   000036                REQUIRE UCB0RXBUF
+     19          }
+     20          
+
+   \                                 In  segment CODE, align 2
+     21          void UART_send(int two_bytes)
+   \                     UART_send:
+     22          {
+     23            char lsb_byte = two_bytes & 0x0F;
+   \   000000   0E12         PUSH.W  R14
+   \   000002   C14C0000     MOV.B   R12, 0(SP)
+   \   000006   3E41         POP.W   R14
+   \   000008   7EF00F00     AND.B   #0xf, R14
+     24            char msb_byte = two_bytes >> 8;
+   \   00000C   8C10         SWPB    R12
+   \   00000E   8C11         SXT     R12
+     25            
+     26            UCA1TXBUF = msb_byte;
+   \   000010   C24C0E06     MOV.B   R12, &0x60e
+     27            while((UCTXIFG & UCA1IFG) == 0);
+   \                     ??UART_send_0:
+   \   000014   E2B31D06     BIT.B   #0x2, &0x61d
+   \   000018   FD2B         JNC     ??UART_send_0
+     28            UCA1TXBUF = lsb_byte;
+   \   00001A   C24E0E06     MOV.B   R14, &0x60e
+     29            while((UCTXIFG & UCA1IFG) == 0);
+   \                     ??UART_send_1:
+   \   00001E   E2B31D06     BIT.B   #0x2, &0x61d
+   \   000022   FD2B         JNC     ??UART_send_1
+     30            
+     31          }
+   \   000024   1001         RETA
+   \   000026                REQUIRE UCA1TXBUF
+   \   000026                REQUIRE _A_UCA1ICTL_L
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+      4   SPI_recieve
+      6   UART_send
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      54  SPI_recieve
+      38  UART_send
+       1  UCA1TXBUF
+       1  UCB0RXBUF
+       1  UCB0TXBUF
+       2  _A_UCA1ICTL_L
+       2  _A_UCB0ICTL_L
+
+ 
+ 92 bytes in segment CODE
+  7 bytes in segment DATA16_AN
+ 
+ 92 bytes of CODE memory
+  0 bytes of DATA memory (+ 7 bytes shared)
+
+Errors: none
+Warnings: none

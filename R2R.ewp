@@ -1120,7 +1120,11 @@
                 <debug>1</debug>
                 <option>
                     <name>CUTest</name>
-                    <state>###Uninitialized###</state>
+                    <state>-I$TOOLKIT_DIR$\inc</state>
+                    <state>-@$TOOLKIT_DIR$\bin\iar.cmd</state>
+                    <state>-@$PROJ_DIR$\source.txt</state>
+                    <state>-@$PROJ_DIR$\include.txt</state>
+                    <state>--preinclude=$PROJ_DIR$\IAR_ULPAdvisor_Defs.h</state>
                 </option>
                 <option>
                     <name>ULPRules</name>
@@ -2298,6 +2302,12 @@
     </file>
     <file>
         <name>$PROJ_DIR$\lib\init.h</name>
+    </file>
+    <file>
+        <name>$PROJ_DIR$\lib\interface.c</name>
+    </file>
+    <file>
+        <name>$PROJ_DIR$\lib\interface.h</name>
     </file>
     <file>
         <name>$PROJ_DIR$\main.c</name>

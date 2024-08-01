@@ -5,7 +5,6 @@ void initMC(void)
 {
   // Stop watchdog timer to prevent time out reset
   WDTCTL = WDTPW + WDTHOLD;
-  __bis_SR_register(GIE);     // Global Interrupt Enable
   
   //LEDs als Ausgänge
   P4DIR |= BIT7;        // Ausgang
@@ -54,21 +53,6 @@ void initR2R(void)
 // 4)End SWRST-Mode
 // 5)Enable Interrupts
 
-void initSPI(void)
-{
-  UCB0CTL1 |= UCSWRST;                                          // SW-Reset Mode
-  UCB0CTL0 |= UCCKPL + UCMSB + UCMST + UCSYNC;                  // SPI-Konfiguration (siehe Userguide S939)
-  UCB0CTL1 |= UCSSEL1;                                          // SMCLK als Taktquelle auswaehlen
-  
-  //Pins für SPI
-  P3SEL |= BIT0;        // P3.0 ist MISO (Serial Data Output des ADC)
-  
-  P2SEL |= BIT3;        // P2.3 ist Chip Select
-  
-  UCB0CTL1 &= ~UCSWRST;                                 // Aus SW-Reset in Betrieb nehmen nach Konfiguration
-  // UCB0IE |= UCRXIE + UCTXIE;                            // Interrupt enable Problem -> Drekt interrupt ohne routione
-}
-
 void initUART(void)
 {
   UCA1CTL1 |= UCSWRST;          // SW-Reset Mode
@@ -81,4 +65,22 @@ void initUART(void)
   UCA1ABCTL = 0x00;             // keine Auto-Baudrate-Detektion
   UCA1CTL1 &= ~UCSWRST;         // Aus SW-Reset in Betrieb nehmen nach Konfiguration
   UCA1IE |= UCRXIE;             // Interrupt enable
+}
+
+void initSPI(void)
+{
+  UCB0CTL1 |= UCSWRST;                                          // SW-Reset Mode
+  UCB0CTL0 |= UCCKPL + UCMSB + UCMST + UCSYNC + UCMODE_2;       // SPI-Konfiguration (siehe Userguide S939)
+  UCB0CTL1 |= UCSSEL1;                                          // SMCLK als Taktquelle auswaehlen
+  
+  //Pins für SPI
+  P3SEL |= BIT0;        // P3.0 ist MOSI (nicht verbunden)
+  P3SEL |= BIT1;        // P3.1 ist MISO (Serial Data Output des ADC)
+  P3SEL |= BIT2;        // P3.2 ist SPI CLK
+  P2SEL |= BIT3;        // P2.3 ist Chip Select
+  
+  
+  UCB0CTL1 &= ~UCSWRST;                                 // Aus SW-Reset in Betrieb nehmen nach Konfiguration
+  UCB0IFG = 0x00;                                       // Interrupts löschen fallsa zufällig gesetzt
+  UCB0IE |= UCRXIE;                                     // Interrupt enable
 }

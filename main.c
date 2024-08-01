@@ -1,5 +1,6 @@
 #include "msp430F5529.h"
 #include "lib/init.h"
+#include "lib/interface.h"
 
 #define pwm_aufloesung 8
 #define filter_aufloesung 8
@@ -17,8 +18,7 @@ unsigned int mittelwert = 0;
 unsigned int mittelwert_anzahl = (1 << filter_aufloesung);
 long sum;                               // Summe zum berechnen des Mittelwerts ( muss double sein, da 8Bit * 16 Bit = 28 BIT Zahlen Adiert werden)
 
-int SPI_recieve(void);
-void UART_send(int two_bytes);
+char rx_data = 0;
 
 void main(void)
 {
@@ -29,8 +29,11 @@ void main(void)
   initSPI();
   initUART();
   
+  __bis_SR_register(GIE);     // Global Interrupt Enable
+  
   while(1)
   {
+    /*
     P4OUT |= BIT7;                      // Grüne LED leuchtet wenn das Programm bereit zum Starten ist
     P1OUT &= ~BIT0;                     // RoteLED aus
     while(0 == P1IFG);                  // Wenn S2 gedrückt wird, startet das Programm
@@ -53,38 +56,29 @@ void main(void)
           sum = sum + SPI_recieve();    // Messung durch ADC
         }
         mittelwert = sum >> filter_aufloesung;          // Teilen der Summe durch 256
-        UART_send(mittelwert);           // Über UART in csv
-        ++pwm_on;                       // erhöht Pulsbreite und fungiert als counter
+        UART_send(mittelwert);                          // Über UART an PC
+        ++pwm_on;                                       // erhöht Pulsbreite und fungiert als counter
       }
       ++r2r_ansteuerung;
-    } 
+    }
+*/ 
+    UCB0TXBUF = 0xF;
+    while((UCRXIFG & UCB0IFG) == 0);
+    if(!rx_data == 0) 
+    {
+      P4OUT |= BIT7;                      
+      P1OUT &= ~BIT0;
+    } else 
+    {
+      P4OUT &= ~BIT7;                      
+      P1OUT |= BIT0;
+    }
   }
 }
-
-int SPI_recieve(void)
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#pragma vector = USCI_B0_VECTOR
+__interrupt void ISR_USCI_B0(void)
 {
-  int msb_byte = 0;
-  int lsb_byte = 0;
-  
-  UCB0TXBUF = 0;                        // 8 Flanken an Slave senden
-  while((UCB0IFG & UCRXIFG) == 0);       // Auf Antwort warten
-  msb_byte = UCB0RXBUF;                 // Antwort in msb_byte speichern
-  
-  UCB0TXBUF = 0;                        // 8 Flanken an Slave senden
-  while((UCB0IFG & UCRXIFG) == 0);       // Auf Antwort warten
-  lsb_byte = UCB0RXBUF;                 // Antwort in msb_byte speichern
-  
-  return (msb_byte << 8 + lsb_byte);     // bytes in 16bit int zusammensetzen
+  rx_data = UCB0RXBUF;                  // Auslesen löscht flag
 }
-
-void UART_send(int two_bytes)
-{
-  char lsb_byte = two_bytes & 0x0F;
-  char msb_byte = two_bytes >> 8;
   
-  UCA1TXBUF = msb_byte;
-  while((UCTXIFG & UCA1IFG) == 0);
-  UCA1TXBUF = lsb_byte;
-  while((UCTXIFG & UCA1IFG) == 0);
-  
-}
