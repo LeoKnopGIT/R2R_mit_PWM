@@ -24,8 +24,8 @@ void initMC(void)
   P1OUT |= BIT1;        // PullUp ausgewählt
   
   P1SEL &= ~BIT1;       // GIO PIN
-  P1IES |= BIT1;        // Interrupt auf negative Flanke 
-  P1IE |= BIT1;         // Interrupt freigeben
+  //P1IES |= BIT1;        // Interrupt auf negative Flanke 
+  P1IE = 0x00;          // Interrupt blockieren
 }
 
 void initPWM(int pwm_anzahl, int pwm_on)
@@ -66,7 +66,7 @@ void initSPI(void)
   P2SEL |= BIT3;        // P2.3 ist Chip Select
   
   UCB0CTL1 &= ~UCSWRST;                                 // Aus SW-Reset in Betrieb nehmen nach Konfiguration
-  UCB0IE |= UCRXIE + UCTXIE;                            // Interrupt enable
+  // UCB0IE |= UCRXIE + UCTXIE;                            // Interrupt enable Problem -> Drekt interrupt ohne routione
 }
 
 void initUART(void)

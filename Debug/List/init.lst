@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          31/Jul/2024  16:51:46
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          01/Aug/2024  11:40:34
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -15,7 +15,7 @@
 #    Source file   =  
 #        C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\lib\init.c
 #    Command line  =  
-#        -f C:\Users\elokn\AppData\Local\Temp\EWA32B.tmp
+#        -f C:\Users\elokn\AppData\Local\Temp\EW16D5.tmp
 #        (C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\lib\init.c
 #        -lC
 #        C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\Debug\List
@@ -57,11 +57,6 @@ C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\lib\init.
    \                                 In  segment DATA16_AN, at 0x20a
    \   union <unnamed> _A_PASEL_L
    \                     _A_PASEL_L:
-   \   000000                DS8 2
-
-   \                                 In  segment DATA16_AN, at 0x218
-   \   union <unnamed> _A_PAIES_L
-   \                     _A_PAIES_L:
    \   000000                DS8 2
 
    \                                 In  segment DATA16_AN, at 0x21a
@@ -122,11 +117,6 @@ C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\lib\init.
    \                                 In  segment DATA16_AN, at 0x5e0
    \   union <unnamed> _A_UCB0CTLW0_L
    \                     _A_UCB0CTLW0_L:
-   \   000000                DS8 2
-
-   \                                 In  segment DATA16_AN, at 0x5fc
-   \   union <unnamed> _A_UCB0ICTL_L
-   \                     _A_UCB0ICTL_L:
    \   000000                DS8 2
 
    \                                 In  segment DATA16_AN, at 0x600
@@ -204,23 +194,21 @@ C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\lib\init.
      25            
      26            P1SEL &= ~BIT1;       // GIO PIN
    \   000038   E2C30A02     BIC.B   #0x2, &0x20a
-     27            P1IES |= BIT1;        // Interrupt auf negative Flanke 
-   \   00003C   E2D31802     BIS.B   #0x2, &0x218
-     28            P1IE |= BIT1;         // Interrupt freigeben
-   \   000040   E2D31A02     BIS.B   #0x2, &0x21a
+     27            //P1IES |= BIT1;        // Interrupt auf negative Flanke 
+     28            P1IE = 0x00;          // Interrupt blockieren
+   \   00003C   C2431A02     MOV.B   #0x0, &0x21a
      29          }
-   \   000044   1001         RETA
-   \   000046                REQUIRE _A_WDTCTL_L
-   \   000046                REQUIRE _A_PBDIR_L
-   \   000046                REQUIRE _A_PBSEL_L
-   \   000046                REQUIRE _A_PBOUT_L
-   \   000046                REQUIRE _A_PADIR_L
-   \   000046                REQUIRE _A_PASEL_L
-   \   000046                REQUIRE _A_PAOUT_L
-   \   000046                REQUIRE _A_PAIFG_L
-   \   000046                REQUIRE _A_PAREN_L
-   \   000046                REQUIRE _A_PAIES_L
-   \   000046                REQUIRE _A_PAIE_L
+   \   000040   1001         RETA
+   \   000042                REQUIRE _A_WDTCTL_L
+   \   000042                REQUIRE _A_PBDIR_L
+   \   000042                REQUIRE _A_PBSEL_L
+   \   000042                REQUIRE _A_PBOUT_L
+   \   000042                REQUIRE _A_PADIR_L
+   \   000042                REQUIRE _A_PASEL_L
+   \   000042                REQUIRE _A_PAOUT_L
+   \   000042                REQUIRE _A_PAIFG_L
+   \   000042                REQUIRE _A_PAREN_L
+   \   000042                REQUIRE _A_PAIE_L
      30          
 
    \                                 In  segment CODE, align 2
@@ -294,14 +282,12 @@ C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\lib\init.
      67            
      68            UCB0CTL1 &= ~UCSWRST;                                 // Aus SW-Reset in Betrieb nehmen nach Konfiguration
    \   000018   D2C3E005     BIC.B   #0x1, &0x5e0
-     69            UCB0IE |= UCRXIE + UCTXIE;                            // Interrupt enable
-   \   00001C   F2D00300FC05 BIS.B   #0x3, &0x5fc
+     69            // UCB0IE |= UCRXIE + UCTXIE;                            // Interrupt enable Problem -> Drekt interrupt ohne routione
      70          }
-   \   000022   1001         RETA
-   \   000024                REQUIRE _A_UCB0CTLW0_L
-   \   000024                REQUIRE _A_PBSEL_L
-   \   000024                REQUIRE _A_PASEL_L
-   \   000024                REQUIRE _A_UCB0ICTL_L
+   \   00001C   1001         RETA
+   \   00001E                REQUIRE _A_UCB0CTLW0_L
+   \   00001E                REQUIRE _A_PBSEL_L
+   \   00001E                REQUIRE _A_PASEL_L
      71          
 
    \                                 In  segment CODE, align 2
@@ -360,7 +346,6 @@ C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\lib\init.
        1  UCA1MCTL
        1  UCA1STAT
        2  _A_PADIR_L
-       2  _A_PAIES_L
        2  _A_PAIE_L
        2  _A_PAIFG_L
        2  _A_PAOUT_L
@@ -375,20 +360,19 @@ C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\lib\init.
        2  _A_UCA1CTLW0_L
        2  _A_UCA1ICTL_L
        2  _A_UCB0CTLW0_L
-       2  _A_UCB0ICTL_L
        2  _A_WDTCTL_L
-      70  initMC
+      66  initMC
       32  initPWM
       10  initR2R
-      36  initSPI
+      30  initSPI
       46  initUART
 
  
- 194 bytes in segment CODE
-  47 bytes in segment DATA16_AN
+ 184 bytes in segment CODE
+  43 bytes in segment DATA16_AN
  
- 194 bytes of CODE memory
-   0 bytes of DATA memory (+ 47 bytes shared)
+ 184 bytes of CODE memory
+   0 bytes of DATA memory (+ 43 bytes shared)
 
 Errors: none
 Warnings: none

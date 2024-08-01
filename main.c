@@ -33,7 +33,7 @@ void main(void)
   {
     P4OUT |= BIT7;                      // Grüne LED leuchtet wenn das Programm bereit zum Starten ist
     P1OUT &= ~BIT0;                     // RoteLED aus
-    while(0 == P1IFG);                  // Wenn S2 gedrückt wird, startet das Prtogramm
+    while(0 == P1IFG);                  // Wenn S2 gedrückt wird, startet das Programm
     P1OUT |= BIT0;                      // Rote LED leuchtet wenn das Programm läuft
     P4OUT &= ~BIT7;                     // Grüne LED aus
     
@@ -67,7 +67,7 @@ int SPI_recieve(void)
   int lsb_byte = 0;
   
   UCB0TXBUF = 0;                        // 8 Flanken an Slave senden
-  while((UCB0IFG & UCRXIFG) ==0);       // Auf Antwort warten
+  while((UCB0IFG & UCRXIFG) == 0);       // Auf Antwort warten
   msb_byte = UCB0RXBUF;                 // Antwort in msb_byte speichern
   
   UCB0TXBUF = 0;                        // 8 Flanken an Slave senden
