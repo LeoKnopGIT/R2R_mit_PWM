@@ -16,15 +16,13 @@ void initMC(void)
   P1OUT &= ~BIT0;       // LED aus
   
   // Button S2 als Start
-  P1IFG &= ~BIT1;       // Interruptflag löschen
-  
   P1DIR &= ~BIT1;       // Eingang nach Tabelle 12-1 aus dem Userguide
   P1REN |= BIT1;        // PullUp/Pulldown aktiviert
   P1OUT |= BIT1;        // PullUp ausgewählt
-  
   P1SEL &= ~BIT1;       // GIO PIN
-  //P1IES |= BIT1;        // Interrupt auf negative Flanke 
-  P1IE = 0x00;          // Interrupt blockieren
+  P1IES |= BIT1;        // Interrupt auf negative Flanke 
+  P1IE = BIT1;          // Interrupt enable
+  P1IFG &= ~BIT1;       // Interruptflag löschen
 }
 
 void initPWM(int pwm_anzahl, int pwm_on)
@@ -56,22 +54,38 @@ void initR2R(void)
 void initUART(void)
 {
   UCA1CTL1 |= UCSWRST;          // SW-Reset Mode
+  
   UCA1CTL0 = 0x00;              // Betriebsart des UART: Asynchron, 8 Datenbits, 1 Stopbit, kein Paritybit, LSB zuerst senden/empfangen 
-  UCA1CTL1 |= UCSSEL1;          // SMCLK als Taktquelle ausw?hlen
+  UCA1CTL1 |= UCSSEL__SMCLK;    // SMCLK als Taktquelle ausw?hlen
   UCA1BR0 = 109;                // Lowbyte, Baudrate einstellen
   UCA1BR1 = 0;                  // Highbyte, Baudrate einstellen
   UCA1MCTL |= UCBRS1;           // Modulator einstellen
   UCA1STAT = 0x00;              // alle moeglichen Flags loeschen
   UCA1ABCTL = 0x00;             // keine Auto-Baudrate-Detektion
+  
   UCA1CTL1 &= ~UCSWRST;         // Aus SW-Reset in Betrieb nehmen nach Konfiguration
+  
   UCA1IE |= UCRXIE;             // Interrupt enable
 }
 
 void initSPI(void)
 {
   UCB0CTL1 |= UCSWRST;                                          // SW-Reset Mode
-  UCB0CTL0 |= UCCKPL + UCMSB + UCMST + UCSYNC + UCMODE_2;       // SPI-Konfiguration (siehe Userguide S939)
-  UCB0CTL1 |= UCSSEL1;                                          // SMCLK als Taktquelle auswaehlen
+  /*
+  UCB0CTL0 &= ~UCCKPH;                                          // Daten werden zur ersten Flanke geändert
+  UCB0CTL0 |= UCCKPL;                                           // Clock Polarität -> Inaktiv = high
+  UCB0CTL0 |= UCMSB;                                            // MSB zuerst
+  UCB0CTL0 &= ~UC7BIT;                                          // 8-Bit Data
+  UCB0CTL0 |= UCMST;                                            // Mastermode
+  UCB0CTL0 |= UCMODE_2;                                         // Slave antowrtet bei CS LOW
+  UCB0CTL0 |= UCSYNC;                                           // Synchron -> SPI
+  */
+  UCB0CTL0 |= UCSYNC;
+  UCB0CTL0 |= UCMST;
+  UCB0CTL1 |= UCSSEL__SMCLK;                                    // SMCLK als Taktquelle auswaehlen
+  
+  UCB0BR0 = 10;                                               // SMCLK wird durch 10 geteilt auf 100khz
+  UCB0BR1 = 0;
   
   //Pins für SPI
   P3SEL |= BIT0;        // P3.0 ist MOSI (nicht verbunden)
@@ -79,8 +93,10 @@ void initSPI(void)
   P3SEL |= BIT2;        // P3.2 ist SPI CLK
   P2SEL |= BIT3;        // P2.3 ist Chip Select
   
-  
   UCB0CTL1 &= ~UCSWRST;                                 // Aus SW-Reset in Betrieb nehmen nach Konfiguration
-  UCB0IFG = 0x00;                                       // Interrupts löschen fallsa zufällig gesetzt
-  UCB0IE |= UCRXIE;                                     // Interrupt enable
+  
+  //UCB0IE |= UCRXIE;                                     // Interrupt enable
+  UCB0IE |= UCTXIE;
+  //UCB0IFG &= ~UCRXIE;                                   // Clear Flags
+  UCB0IFG &= ~UCTXIE;
 }

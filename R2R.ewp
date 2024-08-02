@@ -2304,12 +2304,6 @@
         <name>$PROJ_DIR$\lib\init.h</name>
     </file>
     <file>
-        <name>$PROJ_DIR$\lib\interface.c</name>
-    </file>
-    <file>
-        <name>$PROJ_DIR$\lib\interface.h</name>
-    </file>
-    <file>
         <name>$PROJ_DIR$\main.c</name>
     </file>
 </project>

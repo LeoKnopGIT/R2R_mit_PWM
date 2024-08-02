@@ -1,5 +1,35 @@
 #include "msp430F5529.h"
 #include "lib/init.h"
+
+void initSPI(void);
+//__interrupt void USCI_B0_ISR(void);
+
+int main(void)
+{
+    WDTCTL = WDTPW | WDTHOLD;   // Stop watchdog timer
+    initSPI();
+    initMC();
+    __bis_SR_register(GIE);                   // Aktiviert allgemeine Interrupts
+    
+    while(1);
+}
+// SPI Interrupt Service Routine
+#pragma vector = USCI_B0_VECTOR
+__interrupt void USCI_B0_ISR(void)
+{
+    
+    UCB0TXBUF = 0x5F;
+                                     
+    UCB0IFG &= ~UCTXIE;
+}
+// PORT Interrupt Service Routine
+#pragma vector = PORT1_VECTOR
+__interrupt void PORT1_ISR(void)
+{
+  UCB0TXBUF = 0xF5;
+}
+/*
+#include "lib/init.h"
 #include "lib/interface.h"
 
 #define pwm_aufloesung 8
@@ -33,7 +63,6 @@ void main(void)
   
   while(1)
   {
-    /*
     P4OUT |= BIT7;                      // Grüne LED leuchtet wenn das Programm bereit zum Starten ist
     P1OUT &= ~BIT0;                     // RoteLED aus
     while(0 == P1IFG);                  // Wenn S2 gedrückt wird, startet das Programm
@@ -61,7 +90,6 @@ void main(void)
       }
       ++r2r_ansteuerung;
     }
-*/ 
     UCB0TXBUF = 0xF;
     while((UCRXIFG & UCB0IFG) == 0);
     if(!rx_data == 0) 
@@ -81,4 +109,4 @@ __interrupt void ISR_USCI_B0(void)
 {
   rx_data = UCB0RXBUF;                  // Auslesen löscht flag
 }
-  
+*/
