@@ -41,6 +41,7 @@ void initPWM(int pwm_anzahl, int pwm_on)
 void initR2R(void)
 {
   P6DIR = 0xFF; // Jeder Pin ist Ausgang
+  P6SEL = 0x00; // GIO-PIN
   P6OUT = 0x00; // Jeder Pin erstmals auf 0
 }
 
@@ -71,18 +72,17 @@ void initUART(void)
 void initSPI(void)
 {
   UCB0CTL1 |= UCSWRST;                                          // SW-Reset Mode
-  /*
+  
   UCB0CTL0 &= ~UCCKPH;                                          // Daten werden zur ersten Flanke geändert
   UCB0CTL0 |= UCCKPL;                                           // Clock Polarität -> Inaktiv = high
   UCB0CTL0 |= UCMSB;                                            // MSB zuerst
   UCB0CTL0 &= ~UC7BIT;                                          // 8-Bit Data
   UCB0CTL0 |= UCMST;                                            // Mastermode
-  UCB0CTL0 |= UCMODE_2;                                         // Slave antowrtet bei CS LOW
+  //UCB0CTL0 |= 0x00;                                           // funktioniert nicht mit UCMODE_2(CS wird nicht automatisch gesetzt?) 
   UCB0CTL0 |= UCSYNC;                                           // Synchron -> SPI
-  */
-  UCB0CTL0 |= UCSYNC;
-  UCB0CTL0 |= UCMST;
+  
   UCB0CTL1 |= UCSSEL__SMCLK;                                    // SMCLK als Taktquelle auswaehlen
+  
   
   UCB0BR0 = 10;                                               // SMCLK wird durch 10 geteilt auf 100khz
   UCB0BR1 = 0;
@@ -91,12 +91,16 @@ void initSPI(void)
   P3SEL |= BIT0;        // P3.0 ist MOSI (nicht verbunden)
   P3SEL |= BIT1;        // P3.1 ist MISO (Serial Data Output des ADC)
   P3SEL |= BIT2;        // P3.2 ist SPI CLK
-  P2SEL |= BIT3;        // P2.3 ist Chip Select
+  
+  //P2SEL |= BIT3;      // P2.3 ist Chip Select
+  P2DIR |= BIT3;        // Ausgang
+  P2SEL &= ~BIT3;       // GIO PIN
+  P2OUT |= BIT3;        // CS HIGH
   
   UCB0CTL1 &= ~UCSWRST;                                 // Aus SW-Reset in Betrieb nehmen nach Konfiguration
   
-  //UCB0IE |= UCRXIE;                                     // Interrupt enable
-  UCB0IE |= UCTXIE;
-  //UCB0IFG &= ~UCRXIE;                                   // Clear Flags
+  UCB0IE |= UCRXIE;                                     // Interrupt enable
+  //UCB0IE |= UCTXIE;
+  UCB0IFG &= ~UCRXIE;                                   // Clear Flags
   UCB0IFG &= ~UCTXIE;
 }
