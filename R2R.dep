@@ -7,51 +7,64 @@
         <outputs>
             <file>$PROJ_DIR$\Debug\List\R2R.map</file>
             <file>$PROJ_DIR$\lib\init.c</file>
-            <file>$PROJ_DIR$\lib\init.h</file>
             <file>$PROJ_DIR$\main.c</file>
-            <file>$PROJ_DIR$\lib\interface.c</file>
-            <file>$PROJ_DIR$\Debug\Obj\init.r43</file>
+            <file>$TOOLKIT_DIR$\lib\dlib\dl430xlsfn.r43</file>
+            <file>$PROJ_DIR$\Debug\Obj\interface.__cstat.et</file>
+            <file>$PROJ_DIR$\Debug\Obj\R2R.pbd</file>
             <file>$TOOLKIT_DIR$\inc\in430.h</file>
-            <file>$PROJ_DIR$\Debug\List\init.lst</file>
+            <file>$PROJ_DIR$\lib\init.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\init.r43</file>
+            <file>$PROJ_DIR$\Debug\Exe\R2R.d43</file>
+            <file>$TOOLKIT_DIR$\config\linker\lnk430f5529.xcl</file>
             <file>$PROJ_DIR$\Debug\Obj\init.__cstat.et</file>
+            <file>$PROJ_DIR$\lib\interface.c</file>
+            <file>$TOOLKIT_DIR$\inc\intrinsics.h</file>
+            <file>$TOOLKIT_DIR$\inc\msp430f5529.h</file>
+            <file>$TOOLKIT_DIR$\config\linker\multiplier32.xcl</file>
             <file>$PROJ_DIR$\Debug\List\main.lst</file>
+            <file>$PROJ_DIR$\Debug\Obj\main.r43</file>
+            <file>$PROJ_DIR$\Debug\List\init.lst</file>
+            <file>$PROJ_DIR$\Debug\Obj\interface.r43</file>
+            <file>$PROJ_DIR$\Debug\Obj\interface.xcl</file>
             <file>$PROJ_DIR$\Debug\Exe\R2R.ulp</file>
             <file>$PROJ_DIR$\Debug\List\interface.lst</file>
-            <file>$PROJ_DIR$\Debug\Obj\R2R.pbd</file>
-            <file>$TOOLKIT_DIR$\inc\intrinsics.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\interface.r43</file>
-            <file>$TOOLKIT_DIR$\config\linker\lnk430f5529.xcl</file>
-            <file>$PROJ_DIR$\Debug\Obj\main.r43</file>
-            <file>$TOOLKIT_DIR$\inc\msp430f5529.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\interface.xcl</file>
-            <file>$TOOLKIT_DIR$\config\linker\multiplier32.xcl</file>
-            <file>$PROJ_DIR$\Debug\Exe\R2R.d43</file>
-            <file>$PROJ_DIR$\Debug\Obj\main.__cstat.et</file>
-            <file>$TOOLKIT_DIR$\lib\dlib\dl430xlsfn.r43</file>
-            <file>$PROJ_DIR$\Debug\Obj\main.xcl</file>
-            <file>$PROJ_DIR$\Debug\Obj\interface.__cstat.et</file>
             <file>$PROJ_DIR$\Debug\Obj\init.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\main.__cstat.et</file>
+            <file>$PROJ_DIR$\Debug\Obj\main.xcl</file>
         </outputs>
+        <file>
+            <name>[ROOT_NODE]</name>
+            <outputs>
+                <tool>
+                    <name>XLINK</name>
+                    <file> 9 0</file>
+                </tool>
+                <tool>
+                    <name>ULP430</name>
+                    <file> 21</file>
+                </tool>
+            </outputs>
+        </file>
         <file>
             <name>$PROJ_DIR$\lib\init.c</name>
             <outputs>
                 <tool>
+                    <name>BICOMP</name>
+                    <file> 23</file>
+                </tool>
+                <tool>
                     <name>ICC430</name>
-                    <file> 7 5</file>
+                    <file> 18 8</file>
                 </tool>
                 <tool>
                     <name>__cstat</name>
-                    <file> 8</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 25</file>
+                    <file> 11</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICC430</name>
-                    <file> 17 6 13</file>
+                    <file> 14 6 13</file>
                 </tool>
             </inputs>
         </file>
@@ -59,60 +72,24 @@
             <name>$PROJ_DIR$\main.c</name>
             <outputs>
                 <tool>
-                    <name>ICC430</name>
-                    <file> 9 16</file>
-                </tool>
-                <tool>
-                    <name>__cstat</name>
-                    <file> 21</file>
-                </tool>
-                <tool>
                     <name>BICOMP</name>
-                    <file> 23</file>
+                    <file> 25</file>
                 </tool>
-            </outputs>
-            <inputs>
                 <tool>
                     <name>ICC430</name>
-                    <file> 17 6 13 2</file>
-                </tool>
-            </inputs>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\lib\interface.c</name>
-            <outputs>
-                <tool>
-                    <name>ICC430</name>
-                    <file> 11 14</file>
+                    <file> 16 17</file>
                 </tool>
                 <tool>
                     <name>__cstat</name>
                     <file> 24</file>
                 </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 18</file>
-                </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICC430</name>
-                    <file> 17 6 13</file>
+                    <file> 14 6 13 7</file>
                 </tool>
             </inputs>
-        </file>
-        <file>
-            <name>[ROOT_NODE]</name>
-            <outputs>
-                <tool>
-                    <name>XLINK</name>
-                    <file> 20 0</file>
-                </tool>
-                <tool>
-                    <name>ULP430</name>
-                    <file> 10</file>
-                </tool>
-            </outputs>
         </file>
         <file>
             <name>$PROJ_DIR$\Debug\Exe\R2R.d43</name>
@@ -125,7 +102,30 @@
             <inputs>
                 <tool>
                     <name>XLINK</name>
-                    <file> 15 19 5 16 22</file>
+                    <file> 10 15 8 17 3</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\lib\interface.c</name>
+            <outputs>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 20</file>
+                </tool>
+                <tool>
+                    <name>ICC430</name>
+                    <file> 22 19</file>
+                </tool>
+                <tool>
+                    <name>__cstat</name>
+                    <file> 4</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICC430</name>
+                    <file> 14 6 13</file>
                 </tool>
             </inputs>
         </file>

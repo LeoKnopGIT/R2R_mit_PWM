@@ -1,8 +1,9 @@
 #include "msp430F5529.h"
 #include "lib/init.h"
 
-char rx_data_msb;
-char rx_data_lsb;
+char rx_data;
+
+int adc_value;
 int msb_or_lsb;
 
 void initSPI(void);
@@ -12,9 +13,11 @@ __interrupt void PORT1_ISR(void);
 int main(void)
 {
   WDTCTL = WDTPW | WDTHOLD;   // Stop watchdog timer
-  initSPI();
   initMC();
   initR2R();
+  initSPI();
+  initUART();
+  
   __bis_SR_register(GIE);                   // Aktiviert allgemeine Interrupts
   
   P6OUT |= BIT0;
@@ -24,27 +27,27 @@ int main(void)
   P6OUT |= BIT4;
   
   while(1);
-  
 }
-
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // SPI Interrupt Service Routine
 #pragma vector = USCI_B0_VECTOR
 __interrupt void USCI_B0_ISR(void)
 {
   if (msb_or_lsb == 0)
   {
-  rx_data_msb = UCB0RXBUF;      // Auslesen 1te byte
-  while(UCB0IFG == UCRXIFG);    // Warten bis fertig ausgelesen
-  msb_or_lsb = 1;
-  
-  P2OUT &= ~BIT3;               // CLK für 2tes byte
-  UCB0TXBUF = 0x00;
+    rx_data = UCB0RXBUF;      // Auslesen 1te byte
+    while(UCB0IFG == UCRXIFG);    // Warten bis fertig ausgelesen
+    adc_value = rx_data << 8;     // Schreiben der msb's in adc_value
+    msb_or_lsb = 1;
+    
+    UCB0TXBUF = 0x00;             // Senden 2tes leeres byte
   }
   else
   {
-    rx_data_lsb = UCB0RXBUF;    // Auslesen 2tes byte
-    while(UCB0IFG == UCRXIFG);    // Warten bis fertig ausgelesen
-    P2OUT |= BIT3;
+    rx_data = UCB0RXBUF;    // Auslesen 2tes byte
+    while(UCB0IFG == UCRXIFG);  // Warten bis fertig ausgelesen
+    P2OUT |= BIT3;              // CS High -> 16 Bit übertragung fertig
+    adc_value |= rx_data;       // Schreiben der lsb's in adc_value
     msb_or_lsb = 0;
   }
 }
@@ -54,14 +57,17 @@ __interrupt void USCI_B0_ISR(void)
 __interrupt void PORT1_ISR(void)
 {
   P2OUT &= ~BIT3;
-  UCB0TXBUF = 0x00;
+  UCB0TXBUF = 0x00;           
   
   P4OUT ^= BIT7;
+  
+  // UCA1TXBUF = 0x5F;          // UART
+  
   P1IFG &= ~BIT1;       // Interruptflag löschen
 }
 /*
 #include "lib/init.h"
-#include "lib/interface.h"
+
 
 #define pwm_aufloesung 8
 #define filter_aufloesung 8
