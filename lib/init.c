@@ -32,10 +32,18 @@ void initPWM(int pwm_anzahl, int pwm_on)
   P2SEL |= BIT0;        // P2.0 ist kein GPIO	
   
   // Timer A0 realisiert PWM
-  TA0CCR0 = pwm_anzahl - 1;                             // "pwm_aufloesung" -Bit Auflusung für PWM   f_PWM=1,048MHz/8/128=1,04kHz
+  TA0CCR0 = pwm_anzahl;                                 // "pwm_aufloesung" - Bit Aufloesung für PWM   f_PWM=1,048MHz/8/128=1,04kHz
   TA0CCTL1 = OUTMOD_7;                                  // CCR1 im Reset/Set Modus
   TA0CCR1 = pwm_on;                                     // PWM_on bestimmt Pulsbreite 
   TA0CTL = TASSEL_2 + MC_1 + TACLR + ID_2 + ID_1;       // SMCLK, up mode, loesche TAR f_clk/8	  
+}
+
+void initTIMER(void)
+{
+  TB0CCR0 = 3275;                 // man benötigt ~40 hz 3275
+  TB0CTL = TBSSEL_2 + MC_1 + ID_3; // SMCLK/8, upmode, loesche TBR
+  
+  TB0CCTL0 |= CCIE;
 }
 
 void initR2R(void)
@@ -70,7 +78,7 @@ void initUART(void)
   
   UCA1CTL1 &= ~UCSWRST;         // Aus SW-Reset in Betrieb nehmen nach Konfiguration
   
-  //UCA1IE |= UCRXIE;             // Interrupt enable
+  UCA1IE |= UCRXIE;             // Interrupt enable
 }
 
 void initSPI(void)
@@ -88,8 +96,8 @@ void initSPI(void)
   UCB0CTL1 |= UCSSEL__SMCLK;                                    // SMCLK als Taktquelle auswaehlen
   
   
-  UCB0BR0 = 0;                                               // SMCLK wird durch 10 geteilt auf 100khz
-  UCB0BR1 = 2;
+  UCB0BR0 = 10;                                               // SMCLK wird durch 10 geteilt auf 100khz
+  UCB0BR1 = 0;
   
   //Pins für SPI
   P3SEL |= BIT0;        // P3.0 ist MOSI (nicht verbunden)

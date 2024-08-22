@@ -7,5 +7,5 @@ void initPWM(int pwm_anzahl, int pwm_on);
 void initR2R(void);
 void initSPI(void);
 void initUART(void);
-
+void initTIMER(void);
 #endif
