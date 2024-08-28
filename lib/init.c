@@ -23,27 +23,37 @@ void initMC(void)
   P1IES |= BIT1;        // Interrupt auf negative Flanke 
   P1IE = BIT1;          // Interrupt enable
   P1IFG &= ~BIT1;       // Interruptflag löschen
+  
+  // Port 2.6 als Eingang, um die Wandlung zu ueberwachen
+  
+  P2DIR &= ~BIT6;       // Eingang nach Tabelle 12-1 aus dem Userguide
+  P2REN |= BIT6;        // PullUp/Pulldown aktiviert
+  P2OUT &= ~BIT6;       // Pulldown ausgewählt
+  P2SEL &= ~BIT6;       // GIO PIN
+  P2IES &= ~BIT6;       // Interrupt auf positive Flanke 
+  P2IE &= ~BIT6;        // Interrupt noch nicht erlauben
+  P2IFG &= ~BIT6;       // Interruptflag löschen
 }
 
-void initPWM(int pwm_anzahl, int pwm_on)
+void initPWM(int pwm_anzahl)
 {
   // P2.0 ist Output der PWM
   P2DIR |= BIT0;        // P2.0 ist Ausgang
   P2SEL |= BIT0;        // P2.0 ist kein GPIO	
   
-  // Timer A0 realisiert PWM
-  TA0CCR0 = pwm_anzahl;                                 // "pwm_aufloesung" - Bit Aufloesung für PWM   f_PWM=1,048MHz/8/128=1,04kHz
-  TA0CCTL1 = OUTMOD_7;                                  // CCR1 im Reset/Set Modus
-  TA0CCR1 = pwm_on;                                     // PWM_on bestimmt Pulsbreite 
-  TA0CTL = TASSEL_2 + MC_1 + TACLR + ID_2 + ID_1;       // SMCLK, up mode, loesche TAR f_clk/8	  
+  // Timer A1 realisiert PWM
+  TA1CCR0 = pwm_anzahl;                                                         // 
+  TA1CCTL1 = OUTMOD_7;                                                          // CCR1 im Reset/Set Modus
+  TA1CCR1 = 0;                                                                   
+  TA1CTL = TASSEL_2 + MC_1 + TACLR;                                             // SMCLK, up mode, loesche TAR 	
 }
 
 void initTIMER(void)
 {
-  TB0CCR0 = 3275;                 // man benötigt ~40 hz 3275
+  TB0CCR0 = 4000;                 // man benötigt ~40 hz 3275
   TB0CTL = TBSSEL_2 + MC_1 + ID_3; // SMCLK/8, upmode, loesche TBR
   
-  TB0CCTL0 |= CCIE;
+  TB0CCTL0 &= ~CCIE;                                                            // Interrupt noch nicht frei gegeben
 }
 
 void initR2R(void)

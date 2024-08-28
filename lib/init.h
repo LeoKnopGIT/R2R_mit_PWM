@@ -3,7 +3,7 @@
 #define INIT_H
 
 void initMC(void);
-void initPWM(int pwm_anzahl, int pwm_on);
+void initPWM(int pwm_anzahl);
 void initR2R(void);
 void initSPI(void);
 void initUART(void);
