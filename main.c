@@ -1,7 +1,7 @@
 #include "msp430F5529.h"
 #include "lib/init.h"
 
-#define pwm_aufloesung 4                                                        
+#define pwm_aufloesung 5                                                        
 #define mittelwert_aufloesung 0                                                 
 
 // Globale Variablen Deklaration
