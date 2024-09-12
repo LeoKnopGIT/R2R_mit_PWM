@@ -1,7 +1,7 @@
 #include "msp430F5529.h"
 #include "lib/init.h"
 
-#define pwm_aufloesung 0                                                        
+#define pwm_aufloesung 4                                                        
 #define mittelwert_aufloesung 0                                                 
 
 // Globale Variablen Deklaration
@@ -21,6 +21,8 @@ char tx_data;
 
 unsigned int adc_value;
 unsigned int msb_or_lsb;
+
+unsigned int vorlauf = 0;                                                           // ersten beiden Werte des ADC's sind zu "löschen"
 
 __interrupt void USCI_B0_ISR(void);
 __interrupt void TIMERB0_ISR(void);
@@ -66,8 +68,11 @@ __interrupt void USCI_B0_ISR(void)
     adc_value |= rx_data;       // Schreiben der lsb's in adc_value
     msb_or_lsb = 0;
     
-    sum += adc_value;
-    ++mittelwert_counter;
+    if (vorlauf > 3) 
+    {
+      sum += adc_value;
+      ++mittelwert_counter;
+    }
     
     if (mittelwert_counter > mittelwert_anzahl)                                  
     {
@@ -127,7 +132,9 @@ __interrupt void TIMERB0_ISR(void)
   __delay_cycles(10);
   UCB0TXBUF = 0x00;
   
-  TB0CCTL0 &= ~CCIFG;
+  ++vorlauf;
+  
+  TB0CCTL0 &= ~CCIFG;                                                           // Interruptflag zurücksetzen
 }
 
 // PORT Interrupt Service Routine
@@ -135,6 +142,7 @@ __interrupt void TIMERB0_ISR(void)
 __interrupt void PORT1_ISR(void)
 {
   __delay_cycles(30000);                                                        // Prellen des Tasters abwarten
+  
   P1IFG &= ~BIT1;                                                               // Interruptflag löschen
   TB0CCTL0 |= CCIE;                                                             // Interrupt enable von TimerB0 => Programm startet
 }

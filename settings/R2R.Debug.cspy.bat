@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\common\bin\cspybat" -f "C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\settings\R2R.Debug.general.xcl" --backend -f "C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\settings\R2R.Debug.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\common\bin\cspybat" -f "C:\Users\elokn\Documents\Studium_Bachelor\6.Sem\Untersuchung_R2R_Mittelwert_PWM\settings\R2R.Debug.general.xcl" --backend -f "C:\Users\elokn\Documents\Studium_Bachelor\6.Sem\Untersuchung_R2R_Mittelwert_PWM\settings\R2R.Debug.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\common\bin\cspybat" -f "C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\settings\R2R.Debug.general.xcl" "--debug_file=%~1" --backend -f "C:\Users\elokn\Documents\Studium\6.Sem\Untersuchung_R2R_Mittelwert_PWM\settings\R2R.Debug.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\common\bin\cspybat" -f "C:\Users\elokn\Documents\Studium_Bachelor\6.Sem\Untersuchung_R2R_Mittelwert_PWM\settings\R2R.Debug.general.xcl" "--debug_file=%~1" --backend -f "C:\Users\elokn\Documents\Studium_Bachelor\6.Sem\Untersuchung_R2R_Mittelwert_PWM\settings\R2R.Debug.driver.xcl" 
 
 @echo off 
 :end

@@ -22,15 +22,16 @@ def byte_zusamensetzen(rx_data):
 
         counter_pc += 1
         
+        
 if __name__ == "__main__":
 
-    uart = serial.Serial('COM4', baudrate= 9600, inter_byte_timeout=10) # 1 Stopbit, kein Parity
+    uart = serial.Serial('COM4', baudrate= 9600) # 1 Stopbit, kein Parity
 
     spannungswerte = []
     digitalwerte = []
     counter_pc = 0
 
-    N = 2**8
+    N = 2**12 # 8 + pwm auflösung
 
     while len(spannungswerte) < N:
         rx_data = uart.read(4)
@@ -45,9 +46,10 @@ if __name__ == "__main__":
     plt.scatter(digitalwerte,spannungswerte, s=0.4) # marker = 'o'
     plt.xlabel("Eingang des R2R Netzwerkes")
     plt.ylabel("Ausgangsspannung des R2R Netzwerkes in mV")
-    plt.axis([0,N,0,3300])
+    # plt.axis([0,N,0,3300])
     plt.grid(True)
     plt.show()
+    
 
     
     
