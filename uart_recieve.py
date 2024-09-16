@@ -18,6 +18,8 @@ def byte_zusamensetzen(rx_data):
 
     if counter_pc == counter_mc: 
         spannungswerte.append((ausgangswert_adc - 32768) * 3300/32768 ) # *3300/32768
+        #spannungswerte.append((ausgangswert_adc - 32768) ) # *3300/32768
+
         digitalwerte.append(counter_mc)
 
         counter_pc += 1
@@ -31,7 +33,7 @@ if __name__ == "__main__":
     digitalwerte = []
     counter_pc = 0
 
-    N = 2**13 # 8 + pwm auflösung
+    N = 2**12 # 8 + pwm auflösung
 
     while len(spannungswerte) < N:
         rx_data = uart.read(4)
@@ -40,7 +42,7 @@ if __name__ == "__main__":
 
         print("laenge list", len(spannungswerte))
 
-    p = pathlib.PurePath('Ergebnisse','pwm_5__mittelwert_0.txt')
+    p = pathlib.PurePath('Ergebnisse','pwm_4__mittelwert_0_mitkorrektur.txt')
     np.savetxt(p,spannungswerte)
 
     plt.scatter(digitalwerte,spannungswerte, s=0.4) # marker = 'o'
