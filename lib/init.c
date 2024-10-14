@@ -50,7 +50,7 @@ void initPWM(int pwm_anzahl)
 
 void initTIMER(void)
 {
-  TB0CCR0 = 2873;                 // man benötigt ~40 hz 3275
+  TB0CCR0 = 2873;                 // Timer alle 23 ms 2873
   TB0CTL = TBSSEL_2 + MC_1 + ID_3; // SMCLK/8, upmode, loesche TBR
   
   TB0CCTL0 &= ~CCIE;                                                            // Interrupt noch nicht frei gegeben

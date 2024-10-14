@@ -1,0 +1,47 @@
+import serial
+import numpy as np
+import matplotlib.pyplot as plt
+import pathlib
+
+
+def byte_zusamensetzen(rx_data):
+    global counter_pc
+
+    ausgangswert_adc = rx_data[0] * 256
+    ausgangswert_adc += rx_data[1]
+
+    #print("counter_mc",counter_mc)
+    #print("counter_pc",counter_pc)
+
+    
+    spannungswerte.append(ausgangswert_adc*3300/32768) # *3300/32768
+    k.append(counter_pc)
+    counter_pc += 1
+        
+        
+if __name__ == "__main__":
+
+    uart = serial.Serial('COM4', baudrate= 9600) # 1 Stopbit, kein Parity
+
+    spannungswerte = []
+    k = []
+    counter_pc = 0
+
+    N = 40
+
+    while len(spannungswerte) < N:
+        rx_data = uart.read(2)
+        if not (rx_data == b''):
+            byte_zusamensetzen(rx_data)
+
+        print("laenge list", len(spannungswerte))
+
+    p = pathlib.PurePath('Ergebnisse','Regelung_1.txt')
+    np.savetxt(p,spannungswerte)
+
+    plt.scatter(k,spannungswerte, s=0.4) # marker = 'o'
+    plt.xlabel("k")
+    plt.ylabel("h[k] Ausgangsspannung des R2R Netzwerkes in mV")
+    # plt.axis([0,N,0,3300])
+    plt.grid(True)
+    plt.show()

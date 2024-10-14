@@ -11,7 +11,6 @@ analog = (x/N)*3300
 
 f = np.loadtxt(p)
 
-
 i = 0
 dnl = []
 dnl.append(0.00)
@@ -42,11 +41,8 @@ for i in diff:
 
 rms = avr_square_offset ** 0.5
 
-
 print("avr_offset in mv: ",avr_offset)
 print("avr_square_offset in mv: ", rms)
-
-
 
 plt.figure()
 plt.scatter(x, inl, s=0.4)
@@ -65,5 +61,3 @@ plt.scatter(x , diff, s=0.4) # marker = 'o'
 plt.ylabel("Ausgangsspannung des DAC in mV")
 plt.grid(True)
 plt.show()
-
-
