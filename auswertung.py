@@ -3,9 +3,9 @@ from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 import pathlib
 
-p = pathlib.PurePath('Ergebnisse','pwm_0__mittelwert_0.txt')
+p = pathlib.PurePath('Ergebnisse','pwm_4__mittelwert_0.txt')
 
-N = 2**8 # 8 + pwm auflösung
+N = 2**12 # 8 + pwm auflösung
 
 x = np.arange(0,N,1).reshape((-1, 1))
 x_1 =np.arange(0,N-1,1).reshape((-1, 1))
@@ -42,7 +42,6 @@ while i < len(y_korr) - 1:
     inl.append(inl_sum)
     i += 1
 
-
 plt.figure()
 plt.scatter(x_1, dnl, s=0.4)
 plt.xlabel('Digitalwert')
@@ -55,7 +54,10 @@ plt.xlabel('Digitalwert')
 plt.ylabel('INL')
 plt.grid(True)
 
+plt.show()
 
+print("MAX_INL:", max(inl))
+pirnt("Square_avg", avg_square_dnl)
 
 
 
