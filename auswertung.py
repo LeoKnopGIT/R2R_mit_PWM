@@ -1,4 +1,5 @@
 import numpy as np
+from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 import pathlib
 
@@ -6,58 +7,51 @@ p = pathlib.PurePath('Ergebnisse','pwm_0__mittelwert_0.txt')
 
 N = 2**8 # 8 + pwm auflösung
 
-x = np.arange(0,N,1)
-analog = (x/N)*3300
+x = np.arange(0,N,1).reshape((-1, 1))
+x_1 =np.arange(0,N-1,1).reshape((-1, 1))
 
-f = np.loadtxt(p)
+y = np.loadtxt(p).reshape((-1, 1))
+
+m = LinearRegression().fit(x,y)
+y_fit = m.predict(x)
+
+offset_korr = y_fit[0]
+gain_korr = (3300/N)/m.coef_ 
+print(offset_korr)
+print(gain_korr)
+print(f'R2: {m.score(x,y)}')
+
+y_fit_korr = (y_fit - offset_korr) * gain_korr 
+
+y_ideal= (x/N)*3300
+
+u_lsb =3300/N
 
 i = 0
 dnl = []
-dnl.append(0.00)
-while i < len(f):
-    if i > 0:
-        dnl.append(((f[i] - f[i-1]) / (3300/(N - 1))) - 1)
+while i < len(y_fit_korr) - 1:
+    dnl.append(((y_fit_korr[i + 1] - y_fit_korr[i]) / u_lsb) -1)
     i += 1
 
 i = 0
 inl = []
-while i < len(x):
-    inl.append((f[i]-(x[i]/(N-1))*3300) / (3300/(N - 1)))
-
-    #inl.append((f[i] - (x[i]/(N - 1))*(N - 1)))
+inl_sum = 0
+while i < len(y_fit_korr) - 1:
+    inl_sum = inl_sum + dnl[i]
+    inl.append(inl_sum)
     i += 1
 
-diff = analog - f
-
-sum = 0
-for i in diff:
-    sum = i + sum
-    avr_offset = sum / N
-
-sum = 0
-for i in diff:
-    sum = i * i + sum
-    avr_square_offset = sum / N
-
-rms = avr_square_offset ** 0.5
-
-print("avr_offset in mv: ",avr_offset)
-print("avr_square_offset in mv: ", rms)
-
 plt.figure()
-plt.scatter(x, inl, s=0.4)
+plt.scatter(x_1, inl, s=0.4)
+plt.xlabel('Digitalwert')
 plt.ylabel('INL')
 plt.grid(True)
 plt.show
 
 plt.figure()
-plt.scatter(x, dnl, s=0.4)
+plt.scatter(x_1, dnl, s=0.4)
 plt.ylabel('DNL')
 plt.grid(True)
 plt.show
 
-plt.figure()
-plt.scatter(x , diff, s=0.4) # marker = 'o'
-plt.ylabel("Ausgangsspannung des DAC in mV")
-plt.grid(True)
-plt.show()
+
