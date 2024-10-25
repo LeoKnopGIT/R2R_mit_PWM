@@ -16,7 +16,7 @@ int sum_i = 0;
 unsigned int uart_counter = 0;
 unsigned int r2r_counter = 0;
 
-unsigned int pwm_on = 0;                                                        // Pulsbreitenverhältniss
+unsigned int pwm_on = 0;                                                        // Pulsbreitenverhï¿½ltniss
 unsigned int pwm_anzahl = (1 << pwm_aufloesung) - 1;
 
 unsigned int mittelwert = 0;
@@ -30,8 +30,26 @@ char tx_data;
 unsigned int adc_value;
 unsigned int msb_or_lsb; 
 
-unsigned int vorlauf = 0;                                                           // ersten beiden Werte des ADC's sind zu "löschen"
+unsigned int vorlauf = 0;                                                           // ersten beiden Werte des ADC's sind zu "lï¿½schen"
 
+unsigned int korrektur_bool = 1;
+unsigned int dig_out;
+int korrektur_array_12Bit[256] = { 0,-3,-3,-3,-3,-2,-2,-2,-2,-2,-2,-2,-2,-2,-1,-1,
+                        -2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0, 0, 0, 0, 0,
+                        -2,-2,-2,-2,-2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0,
+                        -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
+                        -1,-1,-1,-1,-1,-1,-1, 0,-1, 0, 0, 0, 0, 0, 0, 0, 
+                         0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2,
+                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1,
+                         1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2,
+                        -2,-2,-3,-2,-2,-2,-2,-2,-2,-2,-2,-1,-2,-1,-1,-1,
+                        -2,-1,-2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0,-1, 0,
+                        -2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-1,-2,-1,
+                        -2,-1,-2,-1,-1,-1,-1,-1,-1,-1,-1, 0,-1, 0,-1, 0,
+                        -2,-2,-3,-2,-2,-2,-2,-1,-2,-2,-2,-1,-2,-1,-1,-1,
+                        -1,-1,-1,-1,-1,-1,-1, 0,-1, 0,-1, 0, 0, 0, 0, 0,
+                        -2,-1,-2,-1,-2,-1,-1,-1,-1,-1,-1,-1,-1, 0,-1, 0,
+                        -1, 0,-1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 2,}
 __interrupt void USCI_B0_ISR(void);
 __interrupt void TIMERB0_ISR(void);
 __interrupt void PORT1_ISR(void);
@@ -72,7 +90,7 @@ __interrupt void USCI_B0_ISR(void)
     
     UCB0TXBUF = 0x00;             // Senden 2tes leeres byte
   }
-  else
+  if (msb_or_lsb == 1)
   {
     rx_data = UCB0RXBUF;    // Auslesen 2tes byte
     while(UCB0IFG == UCRXIFG);  // Warten bis fertig ausgelesen
@@ -80,77 +98,90 @@ __interrupt void USCI_B0_ISR(void)
     
     adc_value |= rx_data;       // Schreiben der lsb's in adc_value
     msb_or_lsb = 0;
-    
-    if ((regelung == 1)  & (vorlauf > 3)) 
-    {
-      adc_value = adc_value & 0x7FFF;
-      tx_data = adc_value >> 8;                                                // MSBytes senden 
-      UCA1TXBUF = tx_data;
-      while(!(UCTXIFG == UCA1IFG));
-      
-      tx_data = adc_value & 0x00FF;                                            // LSBytes senden
-      UCA1TXBUF = tx_data;
-      while(!(UCTXIFG == UCA1IFG));
-      
-      e = sollwert - adc_value;         // Abweichung MEssert von Sollwert
-      sum_i = sum_i + e;                // Sumierung fuer den I-Anteil
-      
-      x = x + (e >> 2) + (sum_i >> 6); //  kp = 1/4 , A = 1/16
-      
-      // 16Bit x Wert auf das Stellglied geben
-      TA1CCR1 = x & 0x007F;
-      P6OUT =  x >> 7;
-    } 
-    else
-    {
-      if (vorlauf > 3)                                          
-      {
-        sum += adc_value;
-        ++mittelwert_counter;
-      }
-      
-      if (mittelwert_counter > mittelwert_anzahl)                                  
-      {
-        // uart_counter zum zuordnen der Werte senden:
-        tx_data = uart_counter >> 8;                                              // MSBytes senden 
-        UCA1TXBUF = tx_data;
-        while(!(UCTXIFG == UCA1IFG));
-        
-        tx_data = uart_counter & 0x00FF;                                          // LSBytes senden
-        UCA1TXBUF = tx_data;
-        while(!(UCTXIFG == UCA1IFG));
-        
-        ++uart_counter;                                                           
-          
-        // Mittelwert ueber uart senden:
-        mittelwert = sum >> mittelwert_aufloesung;                                // Summe der Werte durch 2^mittelwert_aufloesung teilen
-        tx_data = mittelwert >> 8;                                                // MSBytes senden 
-        UCA1TXBUF = tx_data;
-        while(!(UCTXIFG == UCA1IFG));
-        
-        tx_data = mittelwert & 0x00FF;                                            // LSBytes senden
-        UCA1TXBUF = tx_data;
-        while(!(UCTXIFG == UCA1IFG));
-        
-        // Mittelwert counter ruecksetzen und eventuell pwm/r2r erhöhen
-        mittelwert_counter = 0;
-        sum = 0;
-        
-        ++pwm_on;
-        TA1CCR1 = pwm_on;
-        if (pwm_on > pwm_anzahl)
-        {
-          pwm_on = 0;
-          TA1CCR1 = pwm_on;                                                       // PWM output erhöhen
-          
-          ++r2r_counter;
-          P6OUT = r2r_counter;                                                    // R2R Output erhöhen
-        
-        }
-      }
-    }
-    P2OUT |= BIT3;              // CS High -> ADC soll wieder wandeln
   }
+
+  if ((regelung == 1)  & (vorlauf > 3)) 
+  {
+    adc_value = adc_value & 0x7FFF;
+    tx_data = adc_value >> 8;                                                // MSBytes senden 
+    UCA1TXBUF = tx_data;
+    while(!(UCTXIFG == UCA1IFG));
+    
+    tx_data = adc_value & 0x00FF;                                            // LSBytes senden
+    UCA1TXBUF = tx_data;
+    while(!(UCTXIFG == UCA1IFG));
+    
+    e = sollwert - adc_value;         // Abweichung MEssert von Sollwert
+    sum_i = sum_i + e;                // Sumierung fuer den I-Anteil
+    
+    x = x + (e >> 2) + (sum_i >> 6); //  kp = 1/4 , A = 1/16
+    
+    // 16Bit x Wert auf das Stellglied geben
+    TA1CCR1 = x & 0x007F;
+    P6OUT =  x >> 7;
+  } 
+  else
+  {
+    break;
+  }
+  if (vorlauf > 3)                                          
+  {
+    sum += adc_value;
+    ++mittelwert_counter;
+  }
+  
+  if (mittelwert_counter > mittelwert_anzahl)                                  
+  {
+    // uart_counter zum zuordnen der Werte senden:
+    tx_data = uart_counter >> 8;                                              // MSBytes senden 
+    UCA1TXBUF = tx_data;
+    while(!(UCTXIFG == UCA1IFG));
+    
+    tx_data = uart_counter & 0x00FF;                                          // LSBytes senden
+    UCA1TXBUF = tx_data;
+    while(!(UCTXIFG == UCA1IFG));
+    
+    ++uart_counter;                                                           
+      
+    // Mittelwert ueber uart senden:
+    mittelwert = sum >> mittelwert_aufloesung;                                // Summe der Werte durch 2^mittelwert_aufloesung teilen
+
+    tx_data = mittelwert >> 8;                                                // MSBytes senden 
+    UCA1TXBUF = tx_data;
+    while(!(UCTXIFG == UCA1IFG));
+    
+    tx_data = mittelwert & 0x00FF;                                            // LSBytes senden
+    UCA1TXBUF = tx_data;
+    while(!(UCTXIFG == UCA1IFG));
+    
+    // Mittelwert counter ruecksetzen und eventuell pwm/r2r erhï¿½hen
+    mittelwert_counter = 0;
+    sum = 0;
+    
+    ++pwm_on;
+    if (pwm_on > pwm_anzahl)
+    {
+      pwm_on = 0;                                                       
+      ++r2r_counter;                                                             
+    }
+
+    if (korrektur == 1)
+    {
+      dig_out = (r2r_counter << 4) | pwm_on;                      // ZusammenfÃ¼hren PWM und R2R
+      dig_out -= korrektur_array_12Bit(r2r_counter);
+
+      P6OUT = dig_out >> 4;                                       // R2R Output ausgeben
+      TA1CCR1 = dig_out & 0x000F;                                 // PWM output ausgeben
+    }
+    else 
+    {
+      P6OUT = r2r_counter;                                        // R2R Output ausgeben
+      TA1CCR1 = pwm_on;                                           // PWM output ausgeben
+    }
+
+  }
+  P2OUT |= BIT3;              // CS High -> ADC soll wieder wandeln
+  
 }
 
 //TimerB0 Interrupt Service Routine 
@@ -173,7 +204,7 @@ __interrupt void TIMERB0_ISR(void)
   {
     ++vorlauf;
   }
-  TB0CCTL0 &= ~CCIFG;                                                           // Interruptflag zurücksetzen
+  TB0CCTL0 &= ~CCIFG;                                                           // Interruptflag zurï¿½cksetzen
 }
 
 // PORT Interrupt Service Routine
@@ -182,6 +213,6 @@ __interrupt void PORT1_ISR(void)
 {
   __delay_cycles(30000);                                                        // Prellen des Tasters abwarten
   
-  P1IFG &= ~BIT1;                                                               // Interruptflag löschen
+  P1IFG &= ~BIT1;                                                               // Interruptflag lï¿½schen
   TB0CCTL0 |= CCIE;                                                             // Interrupt enable von TimerB0 => Programm startet
 }

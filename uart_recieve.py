@@ -3,7 +3,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pathlib
 
-
 def byte_zusamensetzen(rx_data):
     global counter_pc
 
