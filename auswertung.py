@@ -11,10 +11,12 @@ def calc(p,N):
     y = np.loadtxt(p)
 
     offset_korr = y[0]                          # y-Achsenabschnitt
-    
-    gain_korr = 3300/(y[N - 1] - y[0])                 # m_ideal/m_PtP
+    m_ptp = (y[N - 1] - y[0])/N                 # Steigung PtP-Gerade
+    m_ideal = 3300*(N-1)/N/N                    # FS-Ausgangsspannung/N 
+    gain_korr = m_ideal/m_ptp 
     y_korr = (y - offset_korr) * gain_korr      # Korrektur 
-    u_lsb = 3300/N                        # 1 LSB fuer dnl/inl
+    u_lsb = 3300/(N)                        # 1 LSB fuer dnl/inl
+    
     y_ideal = x * u_lsb
     
     i = 0
@@ -30,6 +32,7 @@ def calc(p,N):
         inl_sum = inl_sum + dnl[i]
         inl.append(inl_sum)
         i += 1
+
     y_ideal = x * u_lsb
     diff = y_ideal - y
     i = 0
@@ -38,8 +41,10 @@ def calc(p,N):
         u_eff_list.append(diff[i]*diff[i])
         i += 1
     u_eff = np.sqrt(np.sum(u_eff_list)/len(u_eff_list))
-    ENOB = np.log2(3300/u_eff)
-
+    ENOB = np.log2(3300*(N-1)/N/u_eff)
+    
+    print("offset",offset_korr)
+    print("gain",gain_korr)
     print("ENOB", ENOB)
     print("max INL",max(inl),min(inl))
     print("max DNL",max(dnl),min(dnl))
@@ -48,9 +53,9 @@ def calc(p,N):
 if __name__ == "__main__":
 
     
-    p = pathlib.PurePath('Ergebnisse','pwm_0__mittelwert_0_gnd.txt')
+    p = pathlib.PurePath('Ergebnisse','pwm_7__mittelwert_0.txt')
     
-    n = 8
+    n = 15
     N = 2**n # 8 + pwm auflösung
     dnl, inl, y_korr, x, x_1, y = calc(p,N)
 
