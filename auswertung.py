@@ -41,7 +41,7 @@ def calc(p,N):
         u_eff_list.append(diff[i]*diff[i])
         i += 1
     u_eff = np.sqrt(np.sum(u_eff_list)/len(u_eff_list))
-    ENOB = np.log2(3300/u_eff)
+    ENOB = np.log2(3300*(N-1)/N/u_eff)
     
     print("offset",offset_korr)
     print("gain",gain_korr)
@@ -53,9 +53,9 @@ def calc(p,N):
 if __name__ == "__main__":
 
     
-    p = pathlib.PurePath('Ergebnisse','pwm_0__mittelwert_0.txt')
+    p = pathlib.PurePath('Ergebnisse','pwm_7__mittelwert_0.txt')
     
-    n = 8
+    n = 15
     N = 2**n # 8 + pwm auflösung
     dnl, inl, y_korr, x, x_1, y = calc(p,N)
 
