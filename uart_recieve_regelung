@@ -14,7 +14,7 @@ def byte_zusamensetzen(rx_data):
     #print("counter_pc",counter_pc)
 
     
-    spannungswerte.append(ausgangswert_adc*3300/32768) # *3300/32768
+    spannungswerte.append((ausgangswert_adc)*3300/32768) # *3300/32768
     k.append(counter_pc)
     counter_pc += 1
         
@@ -27,7 +27,7 @@ if __name__ == "__main__":
     k = []
     counter_pc = 0
 
-    N = 40
+    N = 1000
 
     while len(spannungswerte) < N:
         rx_data = uart.read(2)
@@ -36,7 +36,20 @@ if __name__ == "__main__":
 
         print("laenge list", len(spannungswerte))
 
-    p = pathlib.PurePath('Ergebnisse','Regelung_1.txt')
+    
+
+    i = 100
+    u_eff_list = []
+
+    while i < N:
+        diff = 1000 - spannungswerte[i]
+        u_eff_list.append(diff*diff)
+        i += 1
+    u_eff = np.sqrt(np.sum(u_eff_list)/len(u_eff_list))
+    ENOB = np.log2(3300*((2^15)-1)/(2^15)/u_eff)
+    print(ENOB)
+
+    p = pathlib.PurePath('Ergebnisse','Regelung_long.txt')
     np.savetxt(p,spannungswerte)
 
     plt.scatter(k,spannungswerte, s=0.4) # marker = 'o'

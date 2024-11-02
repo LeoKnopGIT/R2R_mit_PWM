@@ -37,6 +37,7 @@ def calc(p,N):
     diff = y_ideal - y
     i = 0
     u_eff_list = []
+
     while i < len(y):
         u_eff_list.append(diff[i]*diff[i])
         i += 1
@@ -53,22 +54,22 @@ def calc(p,N):
 if __name__ == "__main__":
 
     
-    p = pathlib.PurePath('Ergebnisse','pwm_7__mittelwert_0.txt')
+    p = pathlib.PurePath('Ergebnisse','14BitMitKorr2.txt')
     
-    n = 15
+    n = 14
     N = 2**n # 8 + pwm auflösung
     dnl, inl, y_korr, x, x_1, y = calc(p,N)
 
     plt.figure()
     plt.subplots_adjust(left=0.12, bottom=0.12, right=0.99, top=0.99)
-    plt.scatter(x_1, dnl, s=3)
+    plt.scatter(x_1, dnl, s=0.5)
     plt.xlabel('Digitalwert')
     plt.ylabel('DNL in LSB')
     plt.grid(True)
 
     plt.figure()
     plt.subplots_adjust(left=0.12, bottom=0.12, right=0.99, top=0.99)
-    plt.scatter(x_1, inl, s=3)
+    plt.scatter(x_1, inl, s=0.5)
     plt.xlabel('Digitalwert')
     plt.ylabel('INL in LSB')
     plt.grid(True)

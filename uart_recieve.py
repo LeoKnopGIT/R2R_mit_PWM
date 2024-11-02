@@ -20,7 +20,8 @@ def byte_zusamensetzen(rx_data):
         #spannungswerte.append((ausgangswert_adc - 32768) ) # *3300/32768
 
         digitalwerte.append(counter_mc)
-
+        if ((ausgangswert_adc - 32768) * 3300/32768 ) > 3000:
+            print("ALARM")
         counter_pc += 1
         
         
@@ -32,7 +33,7 @@ if __name__ == "__main__":
     digitalwerte = []
     counter_pc = 0
 
-    N = 2**12 # 8 + pwm auflösung
+    N = 2**14 # 8 + pwm auflösung
 
     while len(spannungswerte) < N:
         rx_data = uart.read(4)
@@ -41,7 +42,18 @@ if __name__ == "__main__":
 
         print("laenge list", len(spannungswerte))
 
-    p = pathlib.PurePath('Ergebnisse','pwm_4__mittelwert_0_mitkorrektur.txt')
+    p = pathlib.PurePath('Ergebnisse','14BitmitKorr2.txt')
+    diff = 1000 - spannungswerte
+
+    i = 100
+    u_eff_list = []
+
+    while i < len(y):
+        u_eff_list.append(diff[i]*diff[i])
+        i += 1
+    u_eff = np.sqrt(np.sum(u_eff_list)/len(u_eff_list))
+    ENOB = np.log2(3300*(N-1)/N/u_eff)
+    print(ENOB)
     np.savetxt(p,spannungswerte)
 
     plt.scatter(digitalwerte,spannungswerte, s=0.4) # marker = 'o'
